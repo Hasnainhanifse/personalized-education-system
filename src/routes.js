@@ -5,7 +5,6 @@ import MainDashboard from "views/admin/default";
 import NFTMarketplace from "views/admin/marketplace";
 import Profile from "views/admin/profile";
 import DataTables from "views/admin/tables";
-import RTLDefault from "views/rtl/default";
 
 // Auth Imports
 import SignIn from "views/auth/SignIn";
@@ -19,12 +18,20 @@ import {
   MdLock,
 } from "react-icons/md";
 import SignUp from "views/auth/SignUp";
+import AdminSignIn from "views/admin-auth/AdminSignIn";
 
 const routes = [
   {
+    name: "Admin Sign In",
+    layout: "/admin",
+    path: "",
+    icon: <MdHome className="h-6 w-6" />,
+    component: <AdminSignIn />,
+  },
+  {
     name: "Main Dashboard",
     layout: "/admin",
-    path: "default",
+    path: "dashboard",
     icon: <MdHome className="h-6 w-6" />,
     component: <MainDashboard />,
   },
@@ -63,13 +70,6 @@ const routes = [
     path: "sign-up",
     icon: <MdLock className="h-6 w-6" />,
     component: <SignUp />,
-  },
-  {
-    name: "RTL Admin",
-    layout: "/rtl",
-    path: "rtl",
-    icon: <MdHome className="h-6 w-6" />,
-    component: <RTLDefault />,
   },
 ];
 export default routes;
