@@ -2,6 +2,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import DashIcon from "components/icons/DashIcon";
+import { LAYOUTS } from "types/global";
 // chakra imports
 
 export function SidebarLinks(props) {
@@ -18,9 +19,9 @@ export function SidebarLinks(props) {
   const createLinks = (routes) => {
     return routes.map((route, index) => {
       if (
-        route.layout === "/admin" ||
-        route.layout === "/auth" ||
-        route.layout === "/rtl"
+        route.layout === LAYOUTS.ADMIN ||
+        route.layout === LAYOUTS.AUTH ||
+        route.layout === LAYOUTS.CLIENT
       ) {
         return (
           <Link key={index} to={route.layout + "/" + route.path}>

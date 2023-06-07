@@ -10,12 +10,28 @@ import { MdCheckCircle, MdCancel, MdOutlineError } from "react-icons/md";
 import { useMemo } from "react";
 import Progress from "components/progress";
 const ComplexTable = (props) => {
-  const { columnsData, tableData } = props;
+  const { columnsData, tableData, state } = props;
 
   const columns = useMemo(() => columnsData, [columnsData]);
   const data = useMemo(() => tableData, [tableData]);
+  const initialState = useMemo(() => state, [state]);
 
-  const tableInstance = useTable(
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    prepareRow,
+    page,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    state: { pageIndex, pageSize },
+  } = useTable(
     {
       columns,
       data,
@@ -24,22 +40,11 @@ const ComplexTable = (props) => {
     useSortBy,
     usePagination
   );
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    page,
-    prepareRow,
-    initialState,
-  } = tableInstance;
-  initialState.pageSize = 5;
-
   return (
     <Card extra={"w-full h-full px-6 pb-6 sm:overflow-x-auto"}>
       <div class="relative flex items-center justify-between pt-4">
         <div class="text-xl font-bold text-navy-700 dark:text-white">
-          Complex Table
+          Students Detail
         </div>
         <CardMenu />
       </div>
@@ -117,6 +122,53 @@ const ComplexTable = (props) => {
             })}
           </tbody>
         </table>
+        <div className="pagination">
+          <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+            {"<<"}
+          </button>{" "}
+          <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+            {"<"}
+          </button>{" "}
+          <button onClick={() => nextPage()} disabled={!canNextPage}>
+            {">"}
+          </button>{" "}
+          <button
+            onClick={() => gotoPage(pageCount - 1)}
+            disabled={!canNextPage}
+          >
+            {">>"}
+          </button>{" "}
+          <span>
+            Page{" "}
+            <strong>
+              {pageIndex + 1} of {pageOptions.length}
+            </strong>{" "}
+          </span>
+          <span>
+            | Go to page:{" "}
+            <input
+              type="number"
+              defaultValue={pageIndex + 1}
+              onChange={(e) => {
+                const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                gotoPage(page);
+              }}
+              style={{ width: "100px" }}
+            />
+          </span>{" "}
+          <select
+            value={pageSize}
+            onChange={(e) => {
+              setPageSize(Number(e.target.value));
+            }}
+          >
+            {[10, 20, 30, 40, 50].map((pageSize) => (
+              <option key={pageSize} value={pageSize}>
+                Show {pageSize}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
     </Card>
   );

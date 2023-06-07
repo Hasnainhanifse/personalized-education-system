@@ -4,8 +4,10 @@ import Navbar from "components/navbar";
 import Sidebar from "components/sidebar";
 import Footer from "components/footer/Footer";
 import routes from "routes.js";
+import { LAYOUTS } from "types/global";
+import { LINKS } from "types/global";
 
-export default function Admin(props) {
+export default function ClientLayout(props) {
   const { ...rest } = props;
   const location = useLocation();
   const [open, setOpen] = React.useState(true);
@@ -46,7 +48,7 @@ export default function Admin(props) {
   };
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
+      if (prop.layout === LAYOUTS.CLIENT) {
         return (
           <Route path={`/${prop.path}`} element={prop.component} key={key} />
         );
@@ -80,7 +82,7 @@ export default function Admin(props) {
                 {getRoutes(routes)}
                 <Route
                   path="/"
-                  element={<Navigate to="/admin/dashboard" replace />}
+                  element={<Navigate to={LINKS.CLIENT_DASHBOARD} replace />}
                 />
               </Routes>
             </div>

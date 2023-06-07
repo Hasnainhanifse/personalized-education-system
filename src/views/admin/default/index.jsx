@@ -17,6 +17,10 @@ import tableDataCheck from "./variables/tableDataCheck.json";
 import tableDataComplex from "./variables/tableDataComplex.json";
 
 const Dashboard = () => {
+  const initialState = {
+    pageSize: 5,
+    pageIndex: 0,
+  };
   return (
     <div>
       {/* Card widget */}
@@ -84,6 +88,7 @@ const Dashboard = () => {
         <ComplexTable
           columnsData={columnsDataComplex}
           tableData={tableDataComplex}
+          state={initialState}
         />
 
         {/* Task chart & Calendar */}
