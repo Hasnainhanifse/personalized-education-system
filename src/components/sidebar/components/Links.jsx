@@ -3,6 +3,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import DashIcon from "components/icons/DashIcon";
 import { LAYOUTS } from "types/global";
+import { titleCase } from "helper/stringHelpers";
 // chakra imports
 
 export function SidebarLinks(props) {
@@ -46,7 +47,7 @@ export function SidebarLinks(props) {
                       : "font-medium text-gray-600"
                   }`}
                 >
-                  {route.name}
+                  {titleCase(route.name)}
                 </p>
               </li>
               {activeRoute(route.path) ? (

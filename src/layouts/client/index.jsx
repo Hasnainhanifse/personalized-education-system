@@ -6,6 +6,7 @@ import Footer from "components/footer/Footer";
 import routes from "routes.js";
 import { LAYOUTS } from "types/global";
 import { LINKS } from "types/global";
+import { titleCase } from "helper/stringHelpers";
 
 export default function ClientLayout(props) {
   const { ...rest } = props;
@@ -73,7 +74,7 @@ export default function ClientLayout(props) {
             <Navbar
               onOpenSidenav={() => setOpen(true)}
               logoText={"Personalized Education System"}
-              brandText={currentRoute}
+              brandText={titleCase(currentRoute)}
               secondary={getActiveNavbar(routes)}
               {...rest}
             />
@@ -82,7 +83,7 @@ export default function ClientLayout(props) {
                 {getRoutes(routes)}
                 <Route
                   path="/"
-                  element={<Navigate to={LINKS.CLIENT_DASHBOARD} replace />}
+                  element={<Navigate to={LINKS.LINK_PROGRESS} replace />}
                 />
               </Routes>
             </div>

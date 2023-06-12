@@ -1,4 +1,3 @@
-import CardMenu from "components/card/CardMenu";
 import Card from "components/card";
 import {
   useGlobalFilter,
@@ -10,7 +9,7 @@ import { MdCheckCircle, MdCancel, MdOutlineError } from "react-icons/md";
 import { useMemo } from "react";
 import Progress from "components/progress";
 const ComplexTable = (props) => {
-  const { columnsData, tableData, state } = props;
+  const { columnsData, tableData, state, title } = props;
 
   const columns = useMemo(() => columnsData, [columnsData]);
   const data = useMemo(() => tableData, [tableData]);
@@ -30,7 +29,10 @@ const ComplexTable = (props) => {
     nextPage,
     previousPage,
     setPageSize,
-    state: { pageIndex, pageSize },
+    initialState: {
+      pageIndex = initialState.pageIndex,
+      pageSize = initialState.pageSize,
+    },
   } = useTable(
     {
       columns,
@@ -44,9 +46,8 @@ const ComplexTable = (props) => {
     <Card extra={"w-full h-full px-6 pb-6 sm:overflow-x-auto"}>
       <div class="relative flex items-center justify-between pt-4">
         <div class="text-xl font-bold text-navy-700 dark:text-white">
-          Students Detail
+          {title}
         </div>
-        <CardMenu />
       </div>
 
       <div class="mt-8 overflow-x-scroll xl:overflow-hidden">

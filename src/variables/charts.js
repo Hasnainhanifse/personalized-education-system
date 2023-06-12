@@ -15,7 +15,7 @@ export const barChartOptionsDailyTraffic = {
     style: {
       fontSize: "12px",
       fontFamily: undefined,
-      backgroundColor: "#000000"
+      backgroundColor: "#000000",
     },
     onDatasetHover: {
       style: {
@@ -103,8 +103,8 @@ export const barChartOptionsDailyTraffic = {
 };
 
 export const pieChartOptions = {
-  labels: ["Your files", "System", "Empty"],
-  colors: ["#4318FF", "#6AD2FF", "#EFF4FB"],
+  labels: ["Pending", "Completed"],
+  colors: ["#4318FF", "#6AD2FF"],
   chart: {
     width: "50px",
   },
@@ -141,12 +141,12 @@ export const pieChartOptions = {
     style: {
       fontSize: "12px",
       fontFamily: undefined,
-      backgroundColor: "#000000"
+      backgroundColor: "#000000",
     },
   },
 };
 
-export const pieChartData = [63, 25, 12];
+export const pieChartData = [75, 25];
 
 export const barChartDataWeeklyRevenue = [
   {
@@ -178,9 +178,9 @@ export const barChartOptionsWeeklyRevenue = {
     style: {
       fontSize: "12px",
       fontFamily: undefined,
-      backgroundColor: "#000000"
+      backgroundColor: "#000000",
     },
-    theme: 'dark',
+    theme: "dark",
     onDatasetHover: {
       style: {
         fontSize: "12px",
@@ -258,14 +258,19 @@ export const barChartOptionsWeeklyRevenue = {
 
 export const lineChartDataTotalSpent = [
   {
-    name: "Revenue",
+    name: "Assignment",
     data: [50, 64, 48, 66, 49, 68],
     color: "#4318FF",
   },
   {
-    name: "Profit",
+    name: "Quiz",
     data: [30, 40, 24, 46, 20, 46],
     color: "#6AD2FF",
+  },
+  {
+    name: "Exams",
+    data: [2, 5, 30, 100, 90, 80],
+    color: "#ff726f",
   },
 ];
 
@@ -296,9 +301,9 @@ export const lineChartOptionsTotalSpent = {
     style: {
       fontSize: "12px",
       fontFamily: undefined,
-      backgroundColor: "#000000"
+      backgroundColor: "#000000",
     },
-    theme: 'dark',
+    theme: "dark",
     x: {
       format: "dd/MM/yy HH:mm",
     },
@@ -322,7 +327,7 @@ export const lineChartOptionsTotalSpent = {
     },
     type: "text",
     range: undefined,
-    categories: ["SEP", "OCT", "NOV", "DEC", "JAN", "FEB"],
+    categories: ["MON", "TUE", "WED", "THUR", "FRI", "SAT"],
   },
 
   yaxis: {

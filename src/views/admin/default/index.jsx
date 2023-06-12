@@ -1,7 +1,7 @@
 import MiniCalendar from "components/calendar/MiniCalendar";
 import WeeklyRevenue from "views/admin/default/components/WeeklyRevenue";
-import TotalSpent from "views/admin/default/components/TotalSpent";
-import PieChartCard from "views/admin/default/components/PieChartCard";
+import ProgessGraph from "components/charts/progessGraph";
+import PieChartCard from "components/charts/PieChartCard";
 import { IoMdHome } from "react-icons/io";
 import { IoDocuments } from "react-icons/io5";
 import { MdBarChart, MdDashboard } from "react-icons/md";
@@ -10,7 +10,7 @@ import { columnsDataCheck, columnsDataComplex } from "./variables/columnsData";
 
 import Widget from "components/widget/Widget";
 import CheckTable from "views/admin/default/components/CheckTable";
-import ComplexTable from "views/admin/default/components/ComplexTable";
+import ComplexTable from "components/charts/ComplexTable";
 import DailyTraffic from "views/admin/default/components/DailyTraffic";
 import TaskCard from "views/admin/default/components/TaskCard";
 import tableDataCheck from "./variables/tableDataCheck.json";
@@ -61,7 +61,7 @@ const Dashboard = () => {
       {/* Charts */}
 
       <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
-        <TotalSpent />
+        <ProgessGraph />
         <WeeklyRevenue />
       </div>
 

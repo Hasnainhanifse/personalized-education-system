@@ -28,40 +28,56 @@ import StudentAssignment from "views/client/assignment";
 import StudentCourses from "views/client/courses";
 import StudentProfile from "views/client/profile";
 import { LAYOUTS } from "types/global";
+import { PATHS } from "types/global";
+import { StudentExams } from "views/client/exams";
 
 const routes = [
   {
-    name: "Dashboard",
+    name: PATHS.PATH_PROGRESS.toUpperCase(),
     layout: LAYOUTS.CLIENT,
-    path: "dashboard",
+    path: PATHS.PATH_PROGRESS,
     icon: <MdHome className="h-6 w-6" />,
     component: <StudentDashboard />,
   },
   {
-    name: "Quiz",
+    name: PATHS.PATH_COURSES.toUpperCase(),
     layout: LAYOUTS.CLIENT,
-    path: "quiz",
-    icon: <MdQuiz className="h-6 w-6" />,
-    component: <StudentQuiz />,
-  },
-  {
-    name: "Assignments",
-    layout: LAYOUTS.CLIENT,
-    path: "assignment",
-    icon: <MdOutlineAssignment className="h-6 w-6" />,
-    component: <StudentAssignment />,
-  },
-  {
-    name: "Courses",
-    layout: LAYOUTS.CLIENT,
-    path: "courses",
+    path: PATHS.PATH_COURSES,
     icon: <MdOutlineBook className="h-6 w-6" />,
     component: <StudentCourses />,
   },
   {
-    name: "Profile",
+    name: PATHS.PATH_ARTICLES.toUpperCase(),
     layout: LAYOUTS.CLIENT,
-    path: "profile",
+    path: PATHS.PATH_ARTICLES,
+    icon: <MdOutlineBook className="h-6 w-6" />,
+    component: <StudentCourses />,
+  },
+  {
+    name: PATHS.PATH_QUIZ.toUpperCase(),
+    layout: LAYOUTS.CLIENT,
+    path: PATHS.PATH_QUIZ,
+    icon: <MdQuiz className="h-6 w-6" />,
+    component: <StudentQuiz />,
+  },
+  {
+    name: PATHS.PATH_ASSIGNMENT.toUpperCase(),
+    layout: LAYOUTS.CLIENT,
+    path: PATHS.PATH_ASSIGNMENT,
+    icon: <MdOutlineAssignment className="h-6 w-6" />,
+    component: <StudentAssignment />,
+  },
+  {
+    name: PATHS.PATH_EXAMS.toUpperCase(),
+    layout: LAYOUTS.CLIENT,
+    path: PATHS.PATH_EXAMS,
+    icon: <MdOutlineBook className="h-6 w-6" />,
+    component: <StudentExams />,
+  },
+  {
+    name: PATHS.PATH_PROFILE.toUpperCase(),
+    layout: LAYOUTS.CLIENT,
+    path: PATHS.PATH_PROFILE,
     icon: <MdOutlineSupervisedUserCircle className="h-6 w-6" />,
     component: <StudentProfile />,
   },
