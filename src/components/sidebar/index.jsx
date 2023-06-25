@@ -8,7 +8,6 @@ const Sidebar = ({ open, onClose, props }) => {
   let filteredRoutes;
   if (props) {
     filteredRoutes = routes.filter((route) => route.layout == props.layout);
-    console.log("filteredRoutes:", filteredRoutes);
   }
 
   return (
