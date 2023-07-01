@@ -3,6 +3,7 @@ import authImg from "assets/img/auth/auth.jpg";
 import { Routes, Route, Navigate } from "react-router-dom";
 import routes from "routes.js";
 import FixedPlugin from "components/fixedPlugin/FixedPlugin";
+import PageNotFound from "views/page-not-found";
 
 export default function Auth() {
   const getRoutes = (routes) => {
@@ -16,7 +17,6 @@ export default function Auth() {
       }
     });
   };
-  document.documentElement.dir = "ltr";
   return (
     <div>
       <div className="relative float-right h-full min-h-screen w-full !bg-white dark:!bg-navy-900">
@@ -31,6 +31,7 @@ export default function Auth() {
                     path="/"
                     element={<Navigate to="/auth/sign-in" replace />}
                   />
+                  <Route path="*" element={<PageNotFound />} />
                 </Routes>
                 <div className="absolute right-0 hidden h-full min-h-screen md:block lg:w-[49vw] 2xl:w-[44vw]">
                   <div

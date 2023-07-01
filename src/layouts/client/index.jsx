@@ -7,6 +7,7 @@ import routes from "routes.js";
 import { LAYOUTS } from "types/global";
 import { LINKS } from "types/global";
 import { titleCase } from "helper/stringHelpers";
+import PageNotFound from "views/page-not-found";
 
 export default function ClientLayout(props) {
   const { ...rest } = props;
@@ -49,6 +50,7 @@ export default function ClientLayout(props) {
   };
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
+      console.log("prop:", prop);
       if (prop.layout === LAYOUTS.CLIENT) {
         return (
           <Route path={`/${prop.path}`} element={prop.component} key={key} />
@@ -85,6 +87,7 @@ export default function ClientLayout(props) {
                   path="/"
                   element={<Navigate to={LINKS.LINK_PROGRESS} replace />}
                 />
+                <Route path="*" element={<PageNotFound />} />
               </Routes>
             </div>
             <div className="p-3">

@@ -19,7 +19,12 @@ const StudentDashboard = () => {
     <div>
       {/* Card widget */}
 
-      <div className="mt-3 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 3xl:grid-cols-6">
+      <div className="mt-3 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-4 3xl:grid-cols-4">
+        <Widget
+          icon={<IoMdHome className="h-6 w-6" />}
+          title={"Level"}
+          subtitle={"Beginner"}
+        />
         <Widget
           icon={<MdBarChart className="h-7 w-7" />}
           title={"Enrolled Courses"}
@@ -31,28 +36,11 @@ const StudentDashboard = () => {
           subtitle={"1"}
         />
         <Widget
-          icon={<MdBarChart className="h-7 w-7" />}
-          title={"Submited Quiz"}
-          subtitle={"1"}
-        />
-        <Widget
           icon={<MdDashboard className="h-6 w-6" />}
           title={"Pending Assignments"}
           subtitle={"2"}
         />
-        <Widget
-          icon={<MdBarChart className="h-7 w-7" />}
-          title={"Submited Assignments"}
-          subtitle={"145"}
-        />
-        <Widget
-          icon={<IoMdHome className="h-6 w-6" />}
-          title={"Progress"}
-          subtitle={"50%"}
-        />
       </div>
-
-      {/* Charts */}
 
       {/* Tables & Charts */}
 

@@ -22,7 +22,7 @@ export function SidebarLinks(props) {
       if (
         route.layout === LAYOUTS.ADMIN ||
         route.layout === LAYOUTS.AUTH ||
-        route.layout === LAYOUTS.CLIENT
+        (route.layout === LAYOUTS.CLIENT && route.display === true)
       ) {
         return (
           <Link key={index} to={route.layout + "/" + route.path}>
@@ -51,7 +51,7 @@ export function SidebarLinks(props) {
                 </p>
               </li>
               {activeRoute(route.path) ? (
-                <div class="absolute right-0 top-px h-9 w-1 rounded-lg bg-brand-500 dark:bg-brand-400" />
+                <div className="absolute right-0 top-px h-9 w-1 rounded-lg bg-brand-500 dark:bg-brand-400" />
               ) : null}
             </div>
           </Link>

@@ -8,6 +8,8 @@ import NftCard from "components/card/NftCard";
 import { columnsDataComplex } from "./variables/columnsData";
 import ComplexTable from "components/charts/ComplexTable";
 import tableDataComplex from "./variables/tableDataComplex.json";
+import { Link } from "react-router-dom";
+import { LINKS } from "types/global";
 
 export default function StudentAssignment() {
   const initialState = {
@@ -44,7 +46,16 @@ export default function StudentAssignment() {
 
         {/* quiz card */}
         <div className="z-20 grid grid-cols-1 gap-5 md:grid-cols-3 xl:grid-cols-5">
-          <NftCard title="Beginner HTML quiz 1" author="Hasnain" image={NFt5} />
+          <Link
+            to={`${LINKS.LINK_ASSIGMENT}/12`}
+            state={{ page: "assignments" }}
+          >
+            <NftCard
+              title="Beginner HTML quiz 1"
+              author="Hasnain"
+              image={NFt5}
+            />
+          </Link>
           <NftCard title="Beginner HTML quiz 1" author="Hasnain" image={NFt4} />
           <NftCard title="Beginner HTML quiz 1" author="Hasnain" image={NFt2} />
         </div>

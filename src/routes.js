@@ -20,6 +20,8 @@ import {
   MdOutlineAssignment,
   MdOutlineBook,
   MdOutlineSupervisedUserCircle,
+  MdPermMedia,
+  MdArticle,
 } from "react-icons/md";
 import SignUp from "views/auth/SignUp";
 import StudentDashboard from "views/client/dashboard";
@@ -27,6 +29,8 @@ import StudentQuiz from "views/client/quiz";
 import StudentAssignment from "views/client/assignment";
 import StudentCourses from "views/client/courses";
 import StudentProfile from "views/client/profile";
+import StudentVideos from "views/client/videos";
+import StudentQuizDetail from "views/client/quiz-detail";
 import { LAYOUTS } from "types/global";
 import { PATHS } from "types/global";
 import { StudentExams } from "views/client/exams";
@@ -38,6 +42,7 @@ const routes = [
     path: PATHS.PATH_PROGRESS,
     icon: <MdHome className="h-6 w-6" />,
     component: <StudentDashboard />,
+    display: true,
   },
   {
     name: PATHS.PATH_COURSES.toUpperCase(),
@@ -45,13 +50,23 @@ const routes = [
     path: PATHS.PATH_COURSES,
     icon: <MdOutlineBook className="h-6 w-6" />,
     component: <StudentCourses />,
+    display: true,
   },
   {
     name: PATHS.PATH_ARTICLES.toUpperCase(),
     layout: LAYOUTS.CLIENT,
     path: PATHS.PATH_ARTICLES,
-    icon: <MdOutlineBook className="h-6 w-6" />,
+    icon: <MdArticle className="h-6 w-6" />,
     component: <StudentCourses />,
+    display: true,
+  },
+  {
+    name: PATHS.PATH_VIDEOS.toUpperCase(),
+    layout: LAYOUTS.CLIENT,
+    path: PATHS.PATH_VIDEOS,
+    icon: <MdPermMedia className="h-6 w-6" />,
+    component: <StudentVideos />,
+    display: true,
   },
   {
     name: PATHS.PATH_QUIZ.toUpperCase(),
@@ -59,6 +74,15 @@ const routes = [
     path: PATHS.PATH_QUIZ,
     icon: <MdQuiz className="h-6 w-6" />,
     component: <StudentQuiz />,
+    display: true,
+  },
+  {
+    name: PATHS.PATH_QUIZ.toUpperCase(),
+    layout: LAYOUTS.CLIENT,
+    path: `${PATHS.PATH_QUIZ}/${PATHS.PATH_DETAIL}`,
+    icon: <MdOutlineBook className="h-6 w-6" />,
+    component: <StudentQuizDetail />,
+    display: false,
   },
   {
     name: PATHS.PATH_ASSIGNMENT.toUpperCase(),
@@ -66,6 +90,15 @@ const routes = [
     path: PATHS.PATH_ASSIGNMENT,
     icon: <MdOutlineAssignment className="h-6 w-6" />,
     component: <StudentAssignment />,
+    display: true,
+  },
+  {
+    name: PATHS.PATH_ASSIGNMENT.toUpperCase(),
+    layout: LAYOUTS.CLIENT,
+    path: `${PATHS.PATH_ASSIGNMENT}/${PATHS.PATH_DETAIL}`,
+    icon: <MdOutlineBook className="h-6 w-6" />,
+    component: <StudentQuizDetail />,
+    display: false,
   },
   {
     name: PATHS.PATH_EXAMS.toUpperCase(),
@@ -73,6 +106,7 @@ const routes = [
     path: PATHS.PATH_EXAMS,
     icon: <MdOutlineBook className="h-6 w-6" />,
     component: <StudentExams />,
+    display: true,
   },
   {
     name: PATHS.PATH_PROFILE.toUpperCase(),
@@ -80,6 +114,7 @@ const routes = [
     path: PATHS.PATH_PROFILE,
     icon: <MdOutlineSupervisedUserCircle className="h-6 w-6" />,
     component: <StudentProfile />,
+    display: true,
   },
   {
     name: "Main Dashboard",
@@ -87,6 +122,7 @@ const routes = [
     path: "dashboard",
     icon: <MdHome className="h-6 w-6" />,
     component: <MainDashboard />,
+    display: true,
   },
   {
     name: "NFT Marketplace",
@@ -95,6 +131,7 @@ const routes = [
     icon: <MdOutlineShoppingCart className="h-6 w-6" />,
     component: <NFTMarketplace />,
     secondary: true,
+    display: true,
   },
   {
     name: "Data Tables",
@@ -102,6 +139,7 @@ const routes = [
     icon: <MdBarChart className="h-6 w-6" />,
     path: "data-tables",
     component: <DataTables />,
+    display: true,
   },
   {
     name: "Profile",
@@ -109,6 +147,7 @@ const routes = [
     path: "profile",
     icon: <MdPerson className="h-6 w-6" />,
     component: <Profile />,
+    display: true,
   },
   {
     name: "Sign In",

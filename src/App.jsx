@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Route, Navigate, Routes } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import AdminLayout from "layouts/admin";
 import AuthLayout from "layouts/auth";
@@ -10,13 +10,15 @@ const App = () => {
   return (
     <ChakraProvider>
       <Routes>
-        <Route path="/" element={<Navigate to="/auth" replace />} />
-        <Route path="auth/*" element={<AuthLayout />} />
+        <Route exact path="/" element={<Navigate to="/auth" />} />
+        <Route exact path="auth/*" element={<AuthLayout />} />
         <Route
+          exact
           path="admin/*"
           element={<AdminLayout layout={LAYOUTS.ADMIN} />}
         />
         <Route
+          exact
           path="client/*"
           element={<ClientLayout layout={LAYOUTS.CLIENT} />}
         />

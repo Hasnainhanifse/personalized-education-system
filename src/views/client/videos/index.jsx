@@ -6,36 +6,28 @@ import NFt4 from "assets/img/nfts/Nft4.png";
 import NFt3 from "assets/img/nfts/Nft3.png";
 import NFt5 from "assets/img/nfts/Nft5.png";
 import NftCard from "components/card/NftCard";
-import { Link } from "react-router-dom";
-import { LINKS } from "types/global";
 
-export default function StudentQuiz() {
+export default function StudentVideos() {
   return (
     <div className="mt-3 grid h-full grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3">
       <div className="col-span-1 h-fit w-full xl:col-span-2 2xl:col-span-3">
         {/* Banner */}
         <Banner
-          header="Start your quiz based on performance"
-          title="Recommended quizez are the best way to improve your learning"
+          header="Watch videos to learn new skills"
+          title="Recommended videos can help you to get your goal quickly"
           image={NftBanner1}
         />
 
         {/* available quiz Header */}
         <div className="mb-4 mt-5 flex flex-col justify-between px-4 md:flex-row md:items-center">
           <h4 className="ml-1 text-2xl font-bold text-navy-700 dark:text-white">
-            Available Quiz
+            Available Videos
           </h4>
         </div>
 
         {/* quiz card */}
         <div className="z-20 grid grid-cols-1 gap-5 md:grid-cols-3 xl:grid-cols-5">
-          <Link to={`${LINKS.LINK_QUIZ}/12`} state={{ page: "Quiz" }}>
-            <NftCard
-              title="Beginner HTML quiz 1"
-              author="Hasnain"
-              image={NFt3}
-            />
-          </Link>
+          <NftCard title="Beginner HTML quiz 1" author="Hasnain" image={NFt3} />
           <NftCard title="Beginner HTML quiz 1" author="Hasnain" image={NFt3} />
           <NftCard title="Beginner HTML quiz 1" author="Hasnain" image={NFt3} />
           <NftCard title="Beginner HTML quiz 1" author="Hasnain" image={NFt3} />
@@ -50,7 +42,7 @@ export default function StudentQuiz() {
         {/* available recommended quiz Header */}
         <div className="mb-4 mt-5 flex flex-col justify-between px-4 md:flex-row md:items-center">
           <h4 className="ml-1 text-2xl font-bold text-navy-700 dark:text-white">
-            Recommended Quiz
+            Recommended Videos
           </h4>
         </div>
 

@@ -12,6 +12,8 @@ export const PATHS = Object.freeze({
   PATH_PROFILE: "profile",
   PATH_COURSES: "courses",
   PATH_ARTICLES: "articles",
+  PATH_VIDEOS: "videos",
+  PATH_DETAIL: ":id",
 });
 
 export const LINKS = Object.freeze({
@@ -22,4 +24,5 @@ export const LINKS = Object.freeze({
   LINK_PROFILE: `${LAYOUTS.CLIENT}/${PATHS.PATH_PROFILE}`,
   LINK_COURSES: `${LAYOUTS.CLIENT}/${PATHS.PATH_COURSES}`,
   LINK_ARTICLES: `${LAYOUTS.CLIENT}/${PATHS.PATH_ARTICLES}`,
+  LINK_VIDEOS: `${LAYOUTS.CLIENT}/${PATHS.PATH_VIDEOS}`,
 });
