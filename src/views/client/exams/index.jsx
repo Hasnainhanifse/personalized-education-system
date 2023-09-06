@@ -16,18 +16,31 @@ export const StudentExams = () => {
           image={NftBanner1}
         />
 
-        {/* available recommended quiz Header */}
         <div className="mb-4 mt-5 flex flex-col justify-between px-4 md:flex-row md:items-center">
           <h4 className="ml-1 text-2xl font-bold text-navy-700 dark:text-white">
             Exams
           </h4>
         </div>
 
-        {/* quiz card */}
         <div className="z-20 grid grid-cols-1 gap-5 md:grid-cols-3 xl:grid-cols-5">
-          <NftCard title="Beginner HTML quiz 1" author="Hasnain" image={NFt5} />
-          <NftCard title="Beginner HTML quiz 1" author="Hasnain" image={NFt4} />
-          <NftCard title="Beginner HTML quiz 1" author="Hasnain" image={NFt2} />
+          <NftCard
+            title="Beginner HTML quiz 1"
+            author="Hasnain"
+            image={NFt5}
+            permalinkText="Start Exam"
+          />
+          <NftCard
+            title="Beginner HTML quiz 1"
+            author="Hasnain"
+            image={NFt4}
+            permalinkText="Start Exam"
+          />
+          <NftCard
+            title="Beginner HTML quiz 1"
+            author="Hasnain"
+            image={NFt2}
+            permalinkText="Start Exam"
+          />
         </div>
       </div>
     </div>

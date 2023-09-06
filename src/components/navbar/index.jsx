@@ -92,12 +92,12 @@ const Navbar = (props) => {
                 >
                   Profile Settings
                 </Link>
-                <a
-                  href=" "
+                <Link
+                  to="/auth"
                   className="mt-3 text-sm font-medium text-red-500 hover:text-red-500"
                 >
-                  Log Out
-                </a>
+                  Logout
+                </Link>
               </div>
             </div>
           }

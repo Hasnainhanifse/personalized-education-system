@@ -1,119 +1,109 @@
-import React, { useState } from "react";
+import React from "react";
 import Banner from "components/banner/Banner";
-import NftBanner1 from "assets/img/nfts/NftBanner1.png";
-import NFt2 from "assets/img/nfts/Nft2.png";
-import NFt4 from "assets/img/nfts/Nft4.png";
 import NFt3 from "assets/img/nfts/Nft3.png";
 import NFt5 from "assets/img/nfts/Nft5.png";
 import NftCard from "components/card/NftCard";
-import { Modal } from "react-responsive-modal";
-import QuizModal from "./components/quiz-modal";
-import "react-responsive-modal/styles.css";
+import { PATHS, LINKS } from "types/global";
 
-export default function StudentQuiz() {
-  const [isModal, setIsModal] = useState(false);
+export default function StudentArticles() {
   return (
     <div className="mt-3 grid h-full grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3">
       <div className="col-span-1 h-fit w-full xl:col-span-2 2xl:col-span-3">
         {/* Banner */}
         <Banner
-          header="Start your quiz based on performance"
-          title="Recommended quizez are the best way to improve your learning"
-          image={NftBanner1}
+          header="Articles"
+          title="There are variety of articles to read."
+          image={NFt5}
         />
 
         {/* available quiz Header */}
         <div className="mb-4 mt-5 flex flex-col justify-between px-4 md:flex-row md:items-center">
           <h4 className="ml-1 text-2xl font-bold text-navy-700 dark:text-white">
-            Available Quiz
+            Available Articles
           </h4>
         </div>
-        <Modal open={isModal} onClose={() => setIsModal(false)}>
-          <QuizModal />
-        </Modal>
 
         {/* quiz card */}
         <div className="z-20 grid grid-cols-1 gap-5 md:grid-cols-3 xl:grid-cols-5">
-          <button onClick={() => setIsModal(true)}>Start Quiz</button>
           <NftCard
             title="Beginner HTML quiz 1"
             author="Hasnain"
             image={NFt3}
-            permalinkText="Start Quiz"
+            permalinkText="Read More"
+            permalink={`${LINKS.LINK_ARTICLES}/12`}
+            page={PATHS.PATH_ARTICLES}
           />
 
           <NftCard
             title="Beginner HTML quiz 1"
             author="Hasnain"
             image={NFt3}
-            permalinkText="Start Quiz"
+            permalinkText="Read More"
           />
           <NftCard
             title="Beginner HTML quiz 1"
             author="Hasnain"
             image={NFt3}
-            permalinkText="Start Quiz"
+            permalinkText="Read More"
           />
           <NftCard
             title="Beginner HTML quiz 1"
             author="Hasnain"
             image={NFt3}
-            permalinkText="Start Quiz"
+            permalinkText="Read More"
           />
           <NftCard
             title="Beginner HTML quiz 1"
             author="Hasnain"
             image={NFt3}
-            permalinkText="Start Quiz"
+            permalinkText="Read More"
           />
           <NftCard
             title="Beginner HTML quiz 1"
             author="Hasnain"
             image={NFt3}
-            permalinkText="Start Quiz"
+            permalinkText="Read More"
           />
           <NftCard
             title="Beginner HTML quiz 1"
             author="Hasnain"
             image={NFt3}
-            permalinkText="Start Quiz"
+            permalinkText="Read More"
           />
           <NftCard
             title="Beginner HTML quiz 1"
             author="Hasnain"
             image={NFt3}
-            permalinkText="Start Quiz"
+            permalinkText="Read More"
           />
         </div>
-
-        {/* recommended quiz setion */}
 
         {/* available recommended quiz Header */}
         <div className="mb-4 mt-5 flex flex-col justify-between px-4 md:flex-row md:items-center">
           <h4 className="ml-1 text-2xl font-bold text-navy-700 dark:text-white">
-            Recommended Quiz
+            Recommended Articles
           </h4>
         </div>
 
-        {/* quiz card */}
+        {/* articles card */}
         <div className="z-20 grid grid-cols-1 gap-5 md:grid-cols-3 xl:grid-cols-5">
           <NftCard
-            title="Beginner HTML quiz 1"
+            title="Article 1"
             author="Hasnain"
             image={NFt5}
-            permalinkText="Start Quiz"
+            permalinkText="Read More"
           />
           <NftCard
-            title="Beginner HTML quiz 1"
+            title="Article 2"
             author="Hasnain"
-            image={NFt4}
-            permalinkText="Start Quiz"
+            image={NFt5}
+            permalinkText="Read More"
           />
           <NftCard
-            title="Beginner HTML quiz 1"
+            title="Article 3"
             author="Hasnain"
-            image={NFt2}
-            permalinkText="Start Quiz"
+            image={NFt5}
+            permalinkText="Read More"
           />
         </div>
       </div>

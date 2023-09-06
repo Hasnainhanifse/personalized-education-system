@@ -5,6 +5,7 @@ export const LAYOUTS = Object.freeze({
 });
 
 export const PATHS = Object.freeze({
+  PATH_DASHBOARD: "dashboard",
   PATH_PROGRESS: "progress",
   PATH_QUIZ: "quiz",
   PATH_EXAMS: "exams",
@@ -17,6 +18,7 @@ export const PATHS = Object.freeze({
 });
 
 export const LINKS = Object.freeze({
+  LINK_DASHBOARD: `${LAYOUTS.ADMIN}/${PATHS.PATH_DASHBOARD}`,
   LINK_PROGRESS: `${LAYOUTS.CLIENT}/${PATHS.PATH_PROGRESS}`,
   LINK_QUIZ: `${LAYOUTS.CLIENT}/${PATHS.PATH_QUIZ}`,
   LINK_EXAMS: `${LAYOUTS.CLIENT}/${PATHS.PATH_EXAMS}`,

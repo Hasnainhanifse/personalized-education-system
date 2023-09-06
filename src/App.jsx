@@ -6,6 +6,7 @@ import AuthLayout from "layouts/auth";
 import ClientLayout from "layouts/client";
 import PageNotFound from "views/page-not-found";
 import { LAYOUTS } from "types/global";
+
 const App = () => {
   return (
     <ChakraProvider>
@@ -17,11 +18,13 @@ const App = () => {
           path="admin/*"
           element={<AdminLayout layout={LAYOUTS.ADMIN} />}
         />
+
         <Route
           exact
           path="client/*"
           element={<ClientLayout layout={LAYOUTS.CLIENT} />}
         />
+
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </ChakraProvider>

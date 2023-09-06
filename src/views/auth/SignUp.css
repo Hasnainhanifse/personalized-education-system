@@ -8,17 +8,17 @@
   @apply relative z-10 flex h-10 w-10 items-center justify-center rounded-full bg-gray-700 font-semibold text-white;
 }
 .active .step {
-  @apply bg-blue-600;
+  @apply bg-blue-600 duration-500;
 }
 .complete .step {
-  @apply bg-green-600;
+  @apply bg-green-600 duration-500;
 }
 .complete p {
   @apply text-white;
 }
 .complete:not(:first-child):before,
 .active:not(:first-child):before {
-  @apply bg-green-600;
+  @apply bg-green-600 duration-500;
 }
 @media only screen and (max-width: 992px) {
   .step-item:not(:first-child):before {

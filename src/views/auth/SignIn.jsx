@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
 import SignInForm from "../../components/forms/SignInForm";
 export default function SignIn() {
-  function onSubmit(data) {
-    console.log("signIn Form:", data);
-  }
+  function onSubmit(data) {}
   return (
     <div className="mt-16 mb-16 flex h-full w-full items-center justify-center px-2 md:mx-0 md:px-0 lg:mb-10 lg:items-center lg:justify-start">
       {/* Sign in section */}

@@ -37,20 +37,9 @@ export default function ClientLayout(props) {
     }
     return activeRoute;
   };
-  const getActiveNavbar = (routes) => {
-    let activeNavbar = false;
-    for (let i = 0; i < routes.length; i++) {
-      if (
-        window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
-      ) {
-        return routes[i].secondary;
-      }
-    }
-    return activeNavbar;
-  };
+
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
-      console.log("prop:", prop);
       if (prop.layout === LAYOUTS.CLIENT) {
         return (
           <Route path={`/${prop.path}`} element={prop.component} key={key} />
@@ -77,7 +66,6 @@ export default function ClientLayout(props) {
               onOpenSidenav={() => setOpen(true)}
               logoText={"Personalized Education System"}
               brandText={titleCase(currentRoute)}
-              secondary={getActiveNavbar(routes)}
               {...rest}
             />
             <div className="pt-5s mx-auto mb-auto h-full min-h-[84vh] p-2 md:pr-2">

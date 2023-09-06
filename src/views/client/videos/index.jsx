@@ -27,30 +27,83 @@ export default function StudentVideos() {
 
         {/* quiz card */}
         <div className="z-20 grid grid-cols-1 gap-5 md:grid-cols-3 xl:grid-cols-5">
-          <NftCard title="Beginner HTML quiz 1" author="Hasnain" image={NFt3} />
-          <NftCard title="Beginner HTML quiz 1" author="Hasnain" image={NFt3} />
-          <NftCard title="Beginner HTML quiz 1" author="Hasnain" image={NFt3} />
-          <NftCard title="Beginner HTML quiz 1" author="Hasnain" image={NFt3} />
-          <NftCard title="Beginner HTML quiz 1" author="Hasnain" image={NFt3} />
-          <NftCard title="Beginner HTML quiz 1" author="Hasnain" image={NFt3} />
-          <NftCard title="Beginner HTML quiz 1" author="Hasnain" image={NFt3} />
-          <NftCard title="Beginner HTML quiz 1" author="Hasnain" image={NFt3} />
+          <NftCard
+            title="Beginner HTML quiz 1"
+            author="Hasnain"
+            image={NFt3}
+            permalinkText="Watch"
+          />
+          <NftCard
+            title="Beginner HTML quiz 1"
+            author="Hasnain"
+            image={NFt3}
+            permalinkText="Watch"
+          />
+          <NftCard
+            title="Beginner HTML quiz 1"
+            author="Hasnain"
+            image={NFt3}
+            permalinkText="Watch"
+          />
+          <NftCard
+            title="Beginner HTML quiz 1"
+            author="Hasnain"
+            image={NFt3}
+            permalinkText="Watch"
+          />
+          <NftCard
+            title="Beginner HTML quiz 1"
+            author="Hasnain"
+            image={NFt3}
+            permalinkText="Watch"
+          />
+          <NftCard
+            title="Beginner HTML quiz 1"
+            author="Hasnain"
+            image={NFt3}
+            permalinkText="Watch"
+          />
+          <NftCard
+            title="Beginner HTML quiz 1"
+            author="Hasnain"
+            image={NFt3}
+            permalinkText="Watch"
+          />
+          <NftCard
+            title="Beginner HTML quiz 1"
+            author="Hasnain"
+            image={NFt3}
+            permalinkText="Watch"
+          />
         </div>
 
-        {/* recommended quiz setion */}
-
-        {/* available recommended quiz Header */}
+        {/* available recommended videos Header */}
         <div className="mb-4 mt-5 flex flex-col justify-between px-4 md:flex-row md:items-center">
           <h4 className="ml-1 text-2xl font-bold text-navy-700 dark:text-white">
             Recommended Videos
           </h4>
         </div>
 
-        {/* quiz card */}
+        {/* videos card */}
         <div className="z-20 grid grid-cols-1 gap-5 md:grid-cols-3 xl:grid-cols-5">
-          <NftCard title="Beginner HTML quiz 1" author="Hasnain" image={NFt5} />
-          <NftCard title="Beginner HTML quiz 1" author="Hasnain" image={NFt4} />
-          <NftCard title="Beginner HTML quiz 1" author="Hasnain" image={NFt2} />
+          <NftCard
+            title="Beginner HTML quiz 1"
+            author="Hasnain"
+            image={NFt5}
+            permalinkText="Watch"
+          />
+          <NftCard
+            title="Beginner HTML quiz 1"
+            author="Hasnain"
+            image={NFt4}
+            permalinkText="Watch"
+          />
+          <NftCard
+            title="Beginner HTML quiz 1"
+            author="Hasnain"
+            image={NFt2}
+            permalinkText="Watch"
+          />
         </div>
       </div>
     </div>
