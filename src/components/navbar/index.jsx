@@ -1,13 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+// @ts-ignore
 import Dropdown from "components/dropdown";
 import { FiAlignJustify } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { RiMoonFill, RiSunFill } from "react-icons/ri";
 import avatar from "assets/img/avatars/avatar4.png";
+import { useDispatch, useSelector } from "react-redux";
+// @ts-ignore
+import { selectCurrentUser } from "store/slices/authSlice";
+import { logout } from "store/slices/authSlice";
 
 const Navbar = (props) => {
   const { onOpenSidenav, brandText } = props;
+  const user = useSelector(selectCurrentUser);
+  const dispatch = useDispatch();
+  // @ts-ignore
+  const [profileInitial, setProfileInitial] = useState("");
   const [darkmode, setDarkmode] = React.useState(false);
+
+  useEffect(() => {
+    let unsubscribe = () => {
+      // @ts-ignore
+      let profileIntials = user.name.charAt(0);
+      setProfileInitial(profileIntials);
+    };
+
+    return unsubscribe;
+  });
+
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
 
   return (
     <nav className="sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl bg-white/10 p-2 backdrop-blur-xl dark:bg-[#0b14374d]">
@@ -68,18 +91,19 @@ const Navbar = (props) => {
         {/* Profile & Dropdown */}
         <Dropdown
           button={
-            <img
-              className="h-10 w-10 cursor-pointer rounded-full"
-              src={avatar}
-              alt="Elon Musk"
-            />
+            <div className="flex h-10 w-10 cursor-pointer select-none items-center justify-center rounded-full border-2 border-navy-700 text-3xl font-bold text-navy-700 dark:border-white dark:text-white">
+              {profileInitial}
+            </div>
           }
           children={
             <div className="flex w-56 flex-col justify-start rounded-[20px] bg-white bg-cover bg-no-repeat shadow-xl shadow-shadow-500 dark:!bg-navy-700 dark:text-white dark:shadow-none">
               <div className="p-4">
                 <div className="flex items-center gap-2">
                   <p className="text-sm font-bold text-navy-700 dark:text-white">
-                    👋 Hey, Adela
+                    👋 Hey,{" "}
+                    {user &&
+                      // @ts-ignore
+                      user.name}
                   </p>{" "}
                 </div>
               </div>
@@ -88,16 +112,16 @@ const Navbar = (props) => {
               <div className="flex flex-col p-4">
                 <Link
                   to="/student/profile"
-                  className="text-sm text-gray-800 dark:text-white hover:dark:text-white"
+                  className=" border-l-4 p-2 text-sm text-gray-800 duration-300 hover:rounded-md hover:bg-navy-100 dark:text-white hover:dark:text-white"
                 >
                   Profile Settings
                 </Link>
-                <Link
-                  to="/auth"
-                  className="mt-3 text-sm font-medium text-red-500 hover:text-red-500"
+                <div
+                  onClick={() => logoutHandler()}
+                  className="mt-3 cursor-pointer border-l-4 p-2 text-sm font-medium text-red-500 duration-300 hover:rounded-md hover:bg-navy-100 hover:text-red-500"
                 >
                   Logout
-                </Link>
+                </div>
               </div>
             </div>
           }

@@ -1,3 +1,4 @@
+// @ts-ignore
 import InputField from "components/fields/InputField";
 import { Link } from "react-router-dom";
 import React, { useState } from "react";

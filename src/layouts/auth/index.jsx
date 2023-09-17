@@ -1,14 +1,21 @@
+// @ts-ignore
 import Footer from "components/footer/FooterAuthDefault";
 import authImg from "assets/img/auth/auth.jpg";
 import { Routes, Route, Navigate } from "react-router-dom";
+// @ts-ignore
 import routes from "routes.js";
+// @ts-ignore
 import FixedPlugin from "components/fixedPlugin/FixedPlugin";
+// @ts-ignore
 import PageNotFound from "views/page-not-found";
+import React from "react";
+import SignIn from "views/auth/SignIn";
+import { LAYOUTS } from "types/global";
 
 export default function Auth() {
-  const getRoutes = (routes) => {
-    return routes.map((prop, key) => {
-      if (prop.layout === "/auth") {
+  const getRoutes = (r) => {
+    let routes = r.map((prop, key) => {
+      if (prop.layout === LAYOUTS.AUTH) {
         return (
           <Route path={`/${prop.path}`} element={prop.component} key={key} />
         );
@@ -16,6 +23,8 @@ export default function Auth() {
         return null;
       }
     });
+    console.log("routes:", routes);
+    return routes;
   };
   return (
     <div>
@@ -31,7 +40,6 @@ export default function Auth() {
                     path="/"
                     element={<Navigate to="/auth/sign-in" replace />}
                   />
-                  <Route path="*" element={<PageNotFound />} />
                 </Routes>
                 <div className="absolute right-0 hidden h-full min-h-screen md:block lg:w-[49vw] 2xl:w-[44vw]">
                   <div

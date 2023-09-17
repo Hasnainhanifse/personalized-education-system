@@ -39,6 +39,7 @@ export default function ClientLayout(props) {
   };
 
   const getRoutes = (routes) => {
+    console.log("client routes:", routes);
     return routes.map((prop, key) => {
       if (prop.layout === LAYOUTS.CLIENT) {
         return (
@@ -73,7 +74,7 @@ export default function ClientLayout(props) {
                 {getRoutes(routes)}
                 <Route
                   path="/"
-                  element={<Navigate to={LINKS.LINK_PROGRESS} replace />}
+                  element={<Navigate to={LINKS.LINK_QUIZ} replace />}
                 />
                 <Route path="*" element={<PageNotFound />} />
               </Routes>

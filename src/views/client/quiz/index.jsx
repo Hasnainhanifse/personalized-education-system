@@ -6,9 +6,8 @@ import NFt4 from "assets/img/nfts/Nft4.png";
 import NFt3 from "assets/img/nfts/Nft3.png";
 import NFt5 from "assets/img/nfts/Nft5.png";
 import NftCard from "components/card/NftCard";
-import { Modal } from "react-responsive-modal";
 import QuizModal from "./components/quiz-modal";
-import "react-responsive-modal/styles.css";
+import { Modal } from "@chakra-ui/modal";
 
 export default function StudentQuiz() {
   const [isModal, setIsModal] = useState(false);
@@ -28,7 +27,7 @@ export default function StudentQuiz() {
             Available Quiz
           </h4>
         </div>
-        <Modal open={isModal} onClose={() => setIsModal(false)}>
+        <Modal isOpen={isModal} onClose={() => setIsModal(false)}>
           <QuizModal />
         </Modal>
 

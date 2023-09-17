@@ -3,6 +3,8 @@
 import { HiX } from "react-icons/hi";
 import Links from "./components/Links";
 import routes from "routes.js";
+import React from "react";
+import logo from "assets/img/logo.png";
 
 const Sidebar = ({ open, onClose, props }) => {
   let filteredRoutes;
@@ -23,12 +25,16 @@ const Sidebar = ({ open, onClose, props }) => {
         <HiX />
       </span>
 
-      <div className={`mx-[56px] mt-[50px] flex items-center`}>
-        <div className="mt-1 ml-1 h-2.5 font-poppins text-[26px] font-bold uppercase text-navy-700 dark:text-white">
-          <span className="font-medium">PES</span>
+      <div className={`mx-[56px] mt-[10px] flex items-center`}>
+        <div className="mt-1 ml-1 h-20 font-poppins text-[26px] font-bold uppercase text-navy-700 dark:text-white">
+          <img
+            src={logo}
+            alt=""
+            className=" h-full w-full rounded-xl 3xl:h-full 3xl:w-full"
+          />
         </div>
       </div>
-      <div className="mt-[58px] mb-7 h-px bg-gray-300 dark:bg-white/30" />
+      <div className="mt-[20px] mb-3 h-px bg-gray-300 dark:bg-white/30" />
       {/* Nav item */}
 
       <ul className="mb-auto pt-1">

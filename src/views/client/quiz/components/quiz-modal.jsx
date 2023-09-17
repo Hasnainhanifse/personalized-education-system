@@ -1,7 +1,12 @@
+// @ts-ignore
 import QuizSubmitModal from "components/quiz/QuizSubmitModal";
+// @ts-ignore
 import Loading from "components/quiz/Loading";
+// @ts-ignore
 import QuizForm from "components/quiz/QuizForm";
+// @ts-ignore
 import { useGlobalContext } from "contexts/context";
+import React from "react";
 
 export default function QuizModal() {
   const { waiting, loading, index, questions, nextQuestion, checkAnswer } =
