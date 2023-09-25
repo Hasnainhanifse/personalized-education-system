@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { useForm } from "react-hook-form";
 
@@ -60,20 +61,7 @@ export default function SignInForm(props) {
           </span>
         </div>
       </div>
-      <div className="mb-4 flex items-center justify-between px-2">
-        <div className="flex items-center">
-          <input
-            type="checkbox"
-            {...register("keepLoggedIn")}
-            className="defaultCheckbox relative flex h-[20px] min-h-[20px] w-[20px] min-w-[20px] appearance-none items-center 
-      justify-center rounded-md border border-gray-300 text-white/0 outline-none transition duration-[0.2s]
-      checked:border-none checked:bg-brand-500 checked:text-white hover:cursor-pointer dark:border-white/10 dark:checked:bg-brand-400"
-          />
-          <p className="ml-2 text-sm font-medium text-navy-700 dark:text-white">
-            Keep me logged In
-          </p>
-        </div>
-      </div>
+
       <button
         type="submit"
         className="linear mt-2 w-full rounded-xl bg-brand-500 py-[12px] text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200"

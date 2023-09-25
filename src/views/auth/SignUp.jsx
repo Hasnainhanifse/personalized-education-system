@@ -7,7 +7,7 @@ import { TiTick } from "react-icons/ti";
 import { Select } from "chakra-react-select";
 
 const SignUp = () => {
-  const steps = ["Personal Info", "Interests", "Goals"];
+  const steps = ["Personal Info", "Interests"];
   const [currentStep, setCurrentStep] = useState(1);
   const [complete, setComplete] = useState(false);
 
@@ -16,39 +16,13 @@ const SignUp = () => {
       case 1:
         return getPersonalInfoForm();
       case 2:
-        return getInterestForm();
-
-      case 3:
         if (!complete) {
-          return getGoalsForm();
+          return getInterestForm();
         } else return null;
+
       default:
         break;
     }
-  }
-
-  function getGoalsForm() {
-    const goals = [
-      { value: "javascriptProgrammer", label: "Javascript Developer" },
-    ];
-    return (
-      <>
-        <div className="my-5 flex flex-col space-y-4">
-          <div>
-            <label className="ml-1.5 text-sm font-medium text-navy-700 dark:text-white">
-              Goals*
-            </label>
-            <Select
-              variant="flushed"
-              placeholder="Select Goals"
-              options={goals}
-              size="sm"
-              onChange={(val) => console.log(val)}
-            ></Select>
-          </div>
-        </div>
-      </>
-    );
   }
 
   function getInterestForm() {

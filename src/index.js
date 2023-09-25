@@ -6,7 +6,7 @@ import QuizProvider from "contexts/context";
 import App from "./App";
 import React from "react";
 import { Provider } from "react-redux";
-import { store } from "./store";
+import store from "./store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 

@@ -1,26 +1,23 @@
+// @ts-nocheck
 import React, { useEffect, useState } from "react";
-// @ts-ignore
 import Dropdown from "components/dropdown";
 import { FiAlignJustify } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { RiMoonFill, RiSunFill } from "react-icons/ri";
-import avatar from "assets/img/avatars/avatar4.png";
 import { useDispatch, useSelector } from "react-redux";
-// @ts-ignore
-import { selectCurrentUser } from "store/slices/authSlice";
-import { logout } from "store/slices/authSlice";
+import { selectCurrentUser } from "../../store";
+import { logout } from "../../features/auth/authSlice";
 
 const Navbar = (props) => {
   const { onOpenSidenav, brandText } = props;
-  const user = useSelector(selectCurrentUser);
+  const { user } = useSelector(selectCurrentUser);
+  console.log("user:", user);
   const dispatch = useDispatch();
-  // @ts-ignore
   const [profileInitial, setProfileInitial] = useState("");
   const [darkmode, setDarkmode] = React.useState(false);
 
   useEffect(() => {
     let unsubscribe = () => {
-      // @ts-ignore
       let profileIntials = user.name.charAt(0);
       setProfileInitial(profileIntials);
     };

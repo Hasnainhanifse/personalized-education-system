@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import Banner from "components/banner/Banner";
 import NftBanner1 from "assets/img/nfts/NftBanner1.png";
