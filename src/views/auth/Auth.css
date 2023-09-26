@@ -1,8 +1,8 @@
 .step-item {
-  @apply relative flex w-36 flex-col items-center justify-center;
+  @apply relative flex w-48 flex-col items-center justify-center;
 }
 .step-item:not(:first-child):before {
-  @apply absolute right-2/4 top-1/3 h-[3px] w-full -translate-y-2/4 bg-gray-200 content-[''];
+  @apply absolute right-[60%] top-1/3 h-[3px] w-full -translate-y-1/4 bg-gray-200 content-[''];
 }
 .step {
   @apply relative z-10 flex h-10 w-10 items-center justify-center rounded-full bg-gray-700 font-semibold text-white;

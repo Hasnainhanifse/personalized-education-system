@@ -22,6 +22,7 @@ import {
   Stack,
   Text,
   Container,
+  Divider,
 } from "@chakra-ui/react";
 import { List, ListItem, ListIcon, Heading } from "@chakra-ui/react";
 import { MdCheckCircle } from "react-icons/md";
@@ -149,8 +150,9 @@ export default function StudentQuiz() {
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>Quiz Title</ModalHeader>
+            <Divider />
             <ModalCloseButton />
-            <ModalBody>
+            <ModalBody py={5}>
               {/* <Instructions /> */}
               <Question />
             </ModalBody>

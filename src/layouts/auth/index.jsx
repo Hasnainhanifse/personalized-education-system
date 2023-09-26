@@ -1,12 +1,9 @@
-// @ts-ignore
+// @ts-nocheck
 import Footer from "components/footer/FooterAuthDefault";
 import authImg from "assets/img/auth/auth.jpg";
 import { Routes, Route, Navigate } from "react-router-dom";
-// @ts-ignore
 import routes from "routes.js";
-// @ts-ignore
 import FixedPlugin from "components/fixedPlugin/FixedPlugin";
-// @ts-ignore
 import PageNotFound from "views/page-not-found";
 import React from "react";
 import SignIn from "views/auth/SignIn";
@@ -23,7 +20,6 @@ export default function Auth() {
         return null;
       }
     });
-    console.log("routes:", routes);
     return routes;
   };
   return (

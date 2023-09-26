@@ -1,3 +1,5 @@
+import React from "react";
+
 const Banner1 = (props) => {
   const { header, title, image } = props;
   return (

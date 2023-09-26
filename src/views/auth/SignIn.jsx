@@ -7,6 +7,7 @@ import { useToast } from "@chakra-ui/react";
 import { selectCurrentUser } from "store";
 import { userLogin } from "features/auth/authActions";
 import { clearErrors } from "features/auth/authSlice";
+import { LINKS } from "types/global";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export default function SignIn() {
 
   useEffect(() => {
     if (user) {
-      navigate("/client");
+      navigate(LINKS.LINK_PROFILE);
       toast({
         title: "Login Success",
         description: "Login successfully",

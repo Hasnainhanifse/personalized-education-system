@@ -11,7 +11,6 @@ import { logout } from "../../features/auth/authSlice";
 const Navbar = (props) => {
   const { onOpenSidenav, brandText } = props;
   const { user } = useSelector(selectCurrentUser);
-  console.log("user:", user);
   const dispatch = useDispatch();
   const [profileInitial, setProfileInitial] = useState("");
   const [darkmode, setDarkmode] = React.useState(false);

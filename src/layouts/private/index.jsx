@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Navbar from "components/navbar";
@@ -9,7 +10,7 @@ import { LINKS } from "types/global";
 import { titleCase } from "helper/stringHelpers";
 import PageNotFound from "views/page-not-found";
 
-export default function ClientLayout(props) {
+export default function PrivateLayout(props) {
   const { ...rest } = props;
   const location = useLocation();
   const [open, setOpen] = React.useState(true);
@@ -27,11 +28,7 @@ export default function ClientLayout(props) {
   const getActiveRoute = (routes) => {
     let activeRoute = "Main Dashboard";
     for (let i = 0; i < routes.length; i++) {
-      if (
-        window.location.href.indexOf(
-          routes[i].layout + "/" + routes[i].path
-        ) !== -1
-      ) {
+      if (window.location.href.indexOf(`/${routes[i].path}`) !== -1) {
         setCurrentRoute(routes[i].name);
       }
     }
@@ -39,9 +36,8 @@ export default function ClientLayout(props) {
   };
 
   const getRoutes = (routes) => {
-    console.log("client routes:", routes);
     return routes.map((prop, key) => {
-      if (prop.layout === LAYOUTS.CLIENT) {
+      if (prop.layout === LAYOUTS.PRIVATE) {
         return (
           <Route path={`/${prop.path}`} element={prop.component} key={key} />
         );

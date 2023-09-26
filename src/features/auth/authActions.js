@@ -40,7 +40,6 @@ export const userLogin = createAsyncThunk(
       localStorage.setItem("user", JSON.stringify(data.user));
       return data;
     } catch (error) {
-      console.log("auth error:", error);
       // return custom error message from API if any
       if (error.response && error.response.data) {
         return rejectWithValue(error.response.data);

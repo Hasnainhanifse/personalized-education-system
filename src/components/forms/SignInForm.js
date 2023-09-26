@@ -45,6 +45,7 @@ export default function SignInForm(props) {
             Password*
           </label>
           <input
+            type="password"
             {...register("password", { required: "Password is required" })}
             aria-invalid={errors.password ? "true" : "false"}
             placeholder="Password"

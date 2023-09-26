@@ -1,10 +1,9 @@
-/* eslint-disable */
+// @ts-nocheck
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import DashIcon from "components/icons/DashIcon";
 import { LAYOUTS } from "types/global";
 import { titleCase } from "helper/stringHelpers";
-// chakra imports
 
 export function SidebarLinks(props) {
   // Chakra color mode
@@ -20,12 +19,11 @@ export function SidebarLinks(props) {
   const createLinks = (routes) => {
     return routes.map((route, index) => {
       if (
-        route.layout === LAYOUTS.ADMIN ||
         route.layout === LAYOUTS.AUTH ||
-        (route.layout === LAYOUTS.CLIENT && route.display === true)
+        (route.layout === LAYOUTS.PRIVATE && route.display === true)
       ) {
         return (
-          <Link key={index} to={route.layout + "/" + route.path}>
+          <Link key={index} to={`/${route.path}`}>
             <div className="relative mb-3 flex hover:cursor-pointer">
               <li
                 className="my-[3px] flex cursor-pointer items-center px-8"

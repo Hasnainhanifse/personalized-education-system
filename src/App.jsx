@@ -3,7 +3,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import AuthLayout from "layouts/auth";
-import ClientLayout from "layouts/client";
+import PrivateLayout from "layouts/private";
 import PageNotFound from "views/page-not-found";
 import { LAYOUTS } from "types/global";
 import Layout from "components/Layout";
@@ -28,8 +28,8 @@ const App = () => {
 
             <Route element={<RequireAuth />}>
               <Route
-                path="client/*"
-                element={<ClientLayout layout={LAYOUTS.CLIENT} />}
+                path="/*"
+                element={<PrivateLayout layout={LAYOUTS.PRIVATE} />}
               />
             </Route>
 

@@ -7,7 +7,6 @@ const RequireAuth = () => {
   const user = useSelector(selectCurrentUser);
   const token = user.token;
   const location = useLocation();
-  console.log("Require auth token:", token);
 
   return token ? (
     <Outlet />
