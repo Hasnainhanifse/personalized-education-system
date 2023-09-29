@@ -4,9 +4,13 @@ import Links from "./components/Links";
 import routes from "routes.js";
 import React from "react";
 import logo from "assets/img/logo.png";
-import { Badge } from "@chakra-ui/react";
+import LevelBadge from "components/badge";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "store";
 
 const Sidebar = ({ open, onClose, props }) => {
+  const { user } = useSelector(selectCurrentUser);
+
   let filteredRoutes;
   if (props) {
     filteredRoutes = routes.filter((route) => route.layout === props.layout);
@@ -33,9 +37,11 @@ const Sidebar = ({ open, onClose, props }) => {
             className=" h-full w-full rounded-xl 3xl:h-full 3xl:w-full"
           />
         </div>
-        <Badge variant="solid" colorScheme="green">
-          Expert
-        </Badge>
+        {user.isAdmin ? (
+          <LevelBadge level={"ADMIN"} />
+        ) : (
+          <LevelBadge level={user.level} />
+        )}
       </div>
 
       <div className="mt-[10px] mb-3 h-px bg-gray-300 dark:bg-white/30" />

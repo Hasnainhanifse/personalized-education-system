@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { createSlice } from "@reduxjs/toolkit";
-import { registerUser, userLogin } from "./authActions";
+import { registerUser, userLogin, updateProfile } from "./authActions";
 import { StoreConstants } from "features/store-constants";
 
 // initialize token from local storage
@@ -59,6 +59,21 @@ const authSlice = createSlice({
         state.success = true; // registration successful
       })
       .addCase(registerUser.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+        state.success = true;
+      })
+      // update user
+      .addCase(updateProfile.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateProfile.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.user = payload;
+        state.success = true;
+      })
+      .addCase(updateProfile.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload;
       });

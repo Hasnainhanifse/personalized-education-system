@@ -1,28 +1,19 @@
 // @ts-nocheck
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Dropdown from "components/dropdown";
 import { FiAlignJustify } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { RiMoonFill, RiSunFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import { selectCurrentUser } from "../../store";
-import { logout } from "../../features/auth/authSlice";
+import { selectCurrentUser } from "store";
+import { logout } from "features/auth/authSlice";
+import { Avatar } from "@chakra-ui/react";
 
 const Navbar = (props) => {
   const { onOpenSidenav, brandText } = props;
   const { user } = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
-  const [profileInitial, setProfileInitial] = useState("");
   const [darkmode, setDarkmode] = React.useState(false);
-
-  useEffect(() => {
-    let unsubscribe = () => {
-      let profileIntials = user.name.charAt(0);
-      setProfileInitial(profileIntials);
-    };
-
-    return unsubscribe;
-  });
 
   const logoutHandler = () => {
     dispatch(logout());
@@ -88,7 +79,7 @@ const Navbar = (props) => {
         <Dropdown
           button={
             <div className="flex h-10 w-10 cursor-pointer select-none items-center justify-center rounded-full border-2 border-navy-700 text-3xl font-bold text-navy-700 dark:border-white dark:text-white">
-              {profileInitial}
+              <Avatar size="md" name={`${user.firstName} ${user.lastName}`} />
             </div>
           }
           children={

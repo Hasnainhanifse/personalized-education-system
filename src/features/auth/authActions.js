@@ -1,7 +1,14 @@
+// @ts-nocheck
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const baseUrl = "http://localhost:3000/api/v1";
+const token = localStorage.getItem("token")
+  ? localStorage.getItem("token")
+  : null;
+const user = localStorage.getItem("user")
+  ? JSON.parse(localStorage.getItem("user"))
+  : null;
 
 export const registerUser = createAsyncThunk(
   "auth/register",
@@ -16,6 +23,9 @@ export const registerUser = createAsyncThunk(
     } catch (error) {
       // return custom error message from backend if present
       if (error.response && error.response.data) {
+        if (error.response.status === 404) {
+          return rejectWithValue(error.response.statusText);
+        }
         return rejectWithValue(error.response.data);
       } else {
         return rejectWithValue(error.message);
@@ -42,6 +52,43 @@ export const userLogin = createAsyncThunk(
     } catch (error) {
       // return custom error message from API if any
       if (error.response && error.response.data) {
+        if (error.response.status === 404) {
+          return rejectWithValue(error.response.statusText);
+        }
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const updateProfile = createAsyncThunk(
+  "auth/profile",
+  async (form, { rejectWithValue }) => {
+    try {
+      // configure header's Content-Type as JSON
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      console.log("user:", user);
+      const { data } = await axios.put(
+        `${baseUrl}/users/${user.id}`,
+        form,
+        config
+      );
+      console.log("data:", data);
+      localStorage.setItem("user", JSON.stringify(data));
+      return data;
+    } catch (error) {
+      // return custom error message from API if any
+      if (error.response && error.response.data) {
+        if (error.response.status === 404) {
+          return rejectWithValue(error.response.statusText);
+        }
         return rejectWithValue(error.response.data);
       } else {
         return rejectWithValue(error.message);

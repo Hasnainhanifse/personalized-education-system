@@ -1,4 +1,6 @@
+// @ts-nocheck
 import Card from "components/card";
+import React from "react";
 import { Link } from "react-router-dom";
 
 const NftCard = ({
@@ -15,13 +17,15 @@ const NftCard = ({
       extra={`flex flex-col w-full h-full !p-4 3xl:p-![18px] bg-white ${extra}`}
     >
       <div className="h-full w-full">
-        <div className="relative w-full">
-          <img
-            src={image}
-            className="mb-3 h-full w-full rounded-xl 3xl:h-full 3xl:w-full"
-            alt=""
-          />
-        </div>
+        {image && (
+          <div className="relative w-full">
+            <img
+              src={image}
+              className="mb-3 h-full w-full rounded-xl 3xl:h-full 3xl:w-full"
+              alt=""
+            />
+          </div>
+        )}
 
         <div className="mb-3 flex items-center justify-between px-1 md:flex-col md:items-start lg:flex-row lg:justify-between xl:flex-col xl:items-start 3xl:flex-row 3xl:justify-between">
           <div className="mb-2">
