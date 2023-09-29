@@ -1,16 +1,18 @@
 // @ts-nocheck
 import Card from "components/card";
 import React from "react";
-import { Link } from "react-router-dom";
+import LevelBadge from "components/badge";
 
 const NftCard = ({
   title,
-  author,
+  subtitle,
   image,
+  level,
+  date,
   extra,
-  permalink,
-  permalinkText,
-  page,
+  buttonText,
+  onClick,
+  disabled,
 }) => {
   return (
     <Card
@@ -34,23 +36,23 @@ const NftCard = ({
               {title}{" "}
             </p>
             <p className="mt-1 text-sm font-medium text-gray-600 md:mt-2">
-              By {author}{" "}
+              {subtitle}{" "}
+            </p>
+            <p className="mt-1 text-sm font-medium text-gray-600 md:mt-2">
+              {date}{" "}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center justify-center md:flex-col md:items-start lg:flex-row lg:justify-center xl:flex-col 2xl:items-start 3xl:flex-row 3xl:items-center 3xl:justify-center">
-          {permalink && page ? (
-            <Link to={permalink} state={{ page: page }}>
-              <button className="linear rounded-[20px] bg-brand-900 px-4 py-2 text-base font-medium text-white transition duration-200 hover:bg-brand-800 active:bg-brand-700 dark:bg-brand-400 dark:hover:bg-brand-300 dark:active:opacity-90">
-                {permalinkText}
-              </button>
-            </Link>
-          ) : (
-            <button className="linear rounded-[20px] bg-brand-900 px-4 py-2 text-base font-medium text-white transition duration-200 hover:bg-brand-800 active:bg-brand-700 dark:bg-brand-400 dark:hover:bg-brand-300 dark:active:opacity-90">
-              {permalinkText}
-            </button>
-          )}
+        <div className="flex  items-center justify-between">
+          <LevelBadge level={level} />
+          <button
+            disabled={disabled}
+            onClick={onClick}
+            className="linear rounded-[20px] bg-brand-900 px-4 py-2 text-base font-medium text-white transition duration-200 hover:bg-brand-800 active:bg-brand-700 disabled:bg-gray-400 dark:bg-brand-400 dark:hover:bg-brand-300 dark:active:opacity-90"
+          >
+            {buttonText}
+          </button>
         </div>
       </div>
     </Card>

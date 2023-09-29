@@ -2,10 +2,6 @@
 import React, { useState } from "react";
 import Banner from "components/banner/Banner";
 import NftBanner1 from "assets/img/nfts/NftBanner1.png";
-import NFt2 from "assets/img/nfts/Nft2.png";
-import NFt4 from "assets/img/nfts/Nft4.png";
-import NFt3 from "assets/img/nfts/Nft3.png";
-import NFt5 from "assets/img/nfts/Nft5.png";
 import NftCard from "components/card/NftCard";
 import {
   Modal,
@@ -26,6 +22,13 @@ import {
 } from "@chakra-ui/react";
 import { List, ListItem, ListIcon, Heading } from "@chakra-ui/react";
 import { MdCheckCircle } from "react-icons/md";
+import { useSelector } from "react-redux";
+import { selectAllQuiz } from "store";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { getAllQuizzes } from "features/assessment/assessmentActions";
+import { formatDate } from "helper/stringHelpers";
+import { selectCurrentUser } from "store";
 
 function Instructions() {
   return (
@@ -124,6 +127,18 @@ function Question() {
 
 export default function StudentQuiz() {
   const [isModal, setIsModal] = useState(false);
+  const { data } = useSelector(selectAllQuiz);
+  const { user } = useSelector(selectCurrentUser);
+  console.log("all Quiz Data:", data);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const unsubscribe = () => {
+      dispatch(getAllQuizzes());
+    };
+    unsubscribe();
+    return unsubscribe;
+  }, []);
 
   return (
     <div className="mt-3 grid h-full grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3">
@@ -174,49 +189,34 @@ export default function StudentQuiz() {
         </Modal>
 
         {/* quiz card */}
-        <div className="z-20 grid grid-cols-1 gap-5 md:grid-cols-3 xl:grid-cols-5">
-          <button onClick={() => setIsModal(true)}>Start Quiz</button>
-          <NftCard
-            title="Beginner HTML quiz 1"
-            author="Hasnain"
-            permalinkText="Start Quiz"
-          />
-
-          <NftCard
-            title="Beginner HTML quiz 1"
-            author="Hasnain"
-            permalinkText="Start Quiz"
-          />
-          <NftCard
-            title="Beginner HTML quiz 1"
-            author="Hasnain"
-            permalinkText="Start Quiz"
-          />
-          <NftCard
-            title="Beginner HTML quiz 1"
-            author="Hasnain"
-            permalinkText="Start Quiz"
-          />
-          <NftCard
-            title="Beginner HTML quiz 1"
-            author="Hasnain"
-            permalinkText="Start Quiz"
-          />
-          <NftCard
-            title="Beginner HTML quiz 1"
-            author="Hasnain"
-            permalinkText="Start Quiz"
-          />
-          <NftCard
-            title="Beginner HTML quiz 1"
-            author="Hasnain"
-            permalinkText="Start Quiz"
-          />
-          <NftCard
-            title="Beginner HTML quiz 1"
-            author="Hasnain"
-            permalinkText="Start Quiz"
-          />
+        <div className="z-20 grid grid-cols-1 gap-5 md:grid-cols-3 xl:grid-cols-5 ">
+          {data &&
+            data.result &&
+            data.result.map((quiz) => {
+              return (
+                <NftCard
+                  key={quiz.id}
+                  title={quiz.name}
+                  subtitle={`Total Questions: ${quiz.questions.length}`}
+                  date={`Created Date: ${formatDate(quiz.dateCreated)}`}
+                  level={quiz.level}
+                  buttonText={
+                    quiz.submittedUsers.includes(user.id)
+                      ? "Submitted"
+                      : "Start Quiz"
+                  }
+                  disabled={quiz.submittedUsers.includes(user.id)}
+                  extra={
+                    quiz.submittedUsers.includes(user.id) ? " opacity-70" : ""
+                  }
+                  onClick={() => {
+                    if (!quiz.submittedUsers.includes(user.id)) {
+                      setIsModal(true);
+                    }
+                  }}
+                />
+              );
+            })}
         </div>
 
         {/* recommended quiz setion */}
