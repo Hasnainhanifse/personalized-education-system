@@ -74,13 +74,11 @@ export const updateProfile = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       };
-      console.log("user:", user);
       const { data } = await axios.put(
         `${baseUrl}/users/${user.id}`,
         form,
         config
       );
-      console.log("data:", data);
       localStorage.setItem("user", JSON.stringify(data));
       return data;
     } catch (error) {

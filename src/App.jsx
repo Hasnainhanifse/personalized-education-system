@@ -10,14 +10,15 @@ import Layout from "components/Layout";
 import RequireAuth from "features/requireAuth";
 import Loader from "./components/loader/loader";
 import { useSelector } from "react-redux";
-import { selectAuthLoading } from "store";
+import { selectAuthLoading, selectAssessmentLoading } from "store";
 
 const App = () => {
   const authLoading = useSelector(selectAuthLoading);
+  const assessmentLoading = useSelector(selectAssessmentLoading);
 
   return (
     <ChakraProvider>
-      <Loader loading={authLoading}>
+      <Loader loading={authLoading || assessmentLoading}>
         <Routes>
           <Route path="/" element={<Layout />}>
             {/* public routes */}

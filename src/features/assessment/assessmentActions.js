@@ -21,7 +21,32 @@ export const getAllQuizzes = createAsyncThunk(
         },
       };
       const { data } = await axios.get(`${baseUrl}/quiz`, config);
-      console.log("data:", data);
+      return data;
+    } catch (error) {
+      // return custom error message from backend if present
+      if (error.response && error.response.data) {
+        if (error.response.status === 404) {
+          return rejectWithValue(error.response.statusText);
+        }
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const submitQuiz = createAsyncThunk(
+  "assessment/submitQuiz",
+  async (form, { rejectWithValue }) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const { data } = await axios.post(`${baseUrl}/quiz/submit`, form, config);
       return data;
     } catch (error) {
       // return custom error message from backend if present

@@ -12,7 +12,6 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
-  Checkbox,
   Radio,
   RadioGroup,
   Stack,
@@ -26,7 +25,10 @@ import { useSelector } from "react-redux";
 import { selectAllQuiz } from "store";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { getAllQuizzes } from "features/assessment/assessmentActions";
+import {
+  getAllQuizzes,
+  submitQuiz,
+} from "features/assessment/assessmentActions";
 import { formatDate } from "helper/stringHelpers";
 import { selectCurrentUser } from "store";
 
@@ -75,53 +77,7 @@ function Instructions() {
           </div>
         </ListItem>
       </List>
-      <Checkbox mx={2} mb={5}>
-        Accept it after reading instructions.
-      </Checkbox>
     </div>
-  );
-}
-
-function Question() {
-  const [value, setValue] = React.useState();
-  return (
-    <Stack spacing={3}>
-      <Heading size="md">Question No 1</Heading>
-      <Text fontSize="xl">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla, vel
-        deleniti. Deserunt alias sequi fugiat a adipisci minus praesentium
-        debitis dolore, odio consectetur, modi est porro veniam doloremque,
-        illum officia.
-      </Text>
-      <RadioGroup onChange={setValue} value={value} my={5}>
-        <Stack direction="column">
-          <Container className="rounded-md border border-gray-300 py-2 ">
-            <Radio value="1">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos ipsa
-              nostrum sapiente. Quis,
-            </Radio>
-          </Container>
-          <Container className="rounded-md border border-gray-300 py-2 ">
-            <Radio value="2">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quia
-              perferendis voluptatibus sed
-            </Radio>
-          </Container>
-          <Container className="rounded-md border border-gray-300 py-2 ">
-            <Radio value="3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
-              earum id obcaecati hic?
-            </Radio>
-          </Container>
-          <Container className="rounded-md border border-gray-300 py-2 ">
-            <Radio value="4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
-              earum id obcaecati hic
-            </Radio>
-          </Container>
-        </Stack>
-      </RadioGroup>
-    </Stack>
   );
 }
 
@@ -129,8 +85,15 @@ export default function StudentQuiz() {
   const [isModal, setIsModal] = useState(false);
   const { data } = useSelector(selectAllQuiz);
   const { user } = useSelector(selectCurrentUser);
-  console.log("all Quiz Data:", data);
   const dispatch = useDispatch();
+  const [questioNo, setQuesionNo] = useState(0);
+  const [currentQuestion, setCurrentQuestion] = useState();
+  const [currentOptions, setCurrentOptions] = useState([]);
+  const [currentQuiz, setCurrentQuiz] = useState([]);
+  const [answer, setAnswer] = useState();
+  const [showResult, setShowResult] = useState(false);
+  const [savedAnswers, setSavedAnswers] = useState([]);
+  const [studentResult, setStudentResult] = useState();
 
   useEffect(() => {
     const unsubscribe = () => {
@@ -139,6 +102,74 @@ export default function StudentQuiz() {
     unsubscribe();
     return unsubscribe;
   }, []);
+
+  useEffect(() => {
+    const unsubscribe = () => {
+      if (
+        savedAnswers &&
+        savedAnswers.length &&
+        currentQuiz &&
+        currentQuiz.questions &&
+        currentQuiz.questions.length
+      ) {
+        let correctAnswers = savedAnswers.filter((a) => a.isCorrect).length;
+        let totalMarks = currentQuiz.questions.length;
+        let result = {
+          totalMarks,
+          correctAnswers,
+        };
+        setStudentResult(result);
+      }
+    };
+    unsubscribe();
+    return unsubscribe;
+  }, [showResult]);
+
+  const openQuizModal = (quiz) => {
+    setCurrentQuiz(quiz);
+    setIsModal(true);
+  };
+
+  const onNextHandler = () => {
+    let question = questioNo;
+    setQuesionNo(question + 1);
+    if (answer && currentOptions && currentOptions.length) {
+      let selectedAnswer = currentOptions.find((x) => x._id === answer);
+      if (selectedAnswer) {
+        setSavedAnswers((prevAnswers) => [...prevAnswers, selectedAnswer]);
+        setAnswer(null);
+      }
+    }
+
+    if (question < currentQuiz.questions.length) {
+      setCurrentQuestion(currentQuiz.questions[questioNo].description);
+      setCurrentOptions(currentQuiz.questions[questioNo].alternatives);
+    } else {
+      setShowResult(true);
+    }
+  };
+
+  const onSelectAnswer = (event) => {
+    setAnswer(event);
+  };
+
+  const closeQuizHandler = () => {
+    if (studentResult) {
+      let form = new FormData();
+      form.append("currentUser", user.id);
+      form.append("quizId", currentQuiz.id);
+      dispatch(submitQuiz(form));
+    }
+    setIsModal(false);
+    setQuesionNo(0);
+    setCurrentOptions(null);
+    setCurrentOptions(null);
+    setCurrentQuiz(null);
+    setSavedAnswers([]);
+    setAnswer(null);
+    setShowResult(false);
+    setStudentResult(null);
+  };
 
   return (
     <div className="mt-3 grid h-full grid-cols-1 gap-5 xl:grid-cols-2 2xl:grid-cols-3">
@@ -164,12 +195,53 @@ export default function StudentQuiz() {
         >
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Quiz Title</ModalHeader>
+            <ModalHeader>{currentQuiz?.name}</ModalHeader>
             <Divider />
             <ModalCloseButton />
             <ModalBody py={5}>
-              {/* <Instructions /> */}
-              <Question />
+              {questioNo === 0 && <Instructions />}
+              {currentQuiz &&
+                currentQuiz.questions &&
+                questioNo > 0 &&
+                questioNo <= currentQuiz.questions.length && (
+                  <Stack spacing={3}>
+                    <Heading size="md">
+                      Question No {questioNo} of{" "}
+                      {currentQuiz &&
+                        currentQuiz.questions &&
+                        currentQuiz.questions.length}
+                    </Heading>
+                    <Text fontSize="xl">{currentQuestion}</Text>
+                    <RadioGroup onChange={onSelectAnswer} value={answer}>
+                      <Stack direction="column">
+                        {currentOptions &&
+                          currentOptions.map((option) => {
+                            return (
+                              <Container
+                                key={option.id}
+                                className="rounded-md border border-gray-300 py-2 "
+                              >
+                                <Radio value={option._id}> {option.text}</Radio>
+                              </Container>
+                            );
+                          })}
+                      </Stack>
+                    </RadioGroup>
+                  </Stack>
+                )}
+              {currentQuiz &&
+                currentQuiz.questions &&
+                questioNo > currentQuiz.questions.length && (
+                  <Stack>
+                    <Container>
+                      Total Marks: {studentResult && studentResult?.totalMarks}
+                    </Container>
+                    <Container>
+                      Obtained Marks:{" "}
+                      {studentResult && studentResult?.correctAnswers}
+                    </Container>
+                  </Stack>
+                )}
             </ModalBody>
 
             <ModalFooter>
@@ -177,13 +249,21 @@ export default function StudentQuiz() {
                 colorScheme="red"
                 mr={3}
                 size="lg"
-                onClick={() => setIsModal(false)}
+                onClick={closeQuizHandler}
               >
                 Close
               </Button>
-              <Button size="lg" colorScheme="green">
-                Start Quiz
-              </Button>
+              {!showResult && (
+                <Button
+                  disabled={true}
+                  size="lg"
+                  isLoading={questioNo > 0 && !answer}
+                  colorScheme={questioNo === 0 ? "green" : "blue"}
+                  onClick={onNextHandler}
+                >
+                  {questioNo === 0 ? "Start Quiz" : "Next"}
+                </Button>
+              )}
             </ModalFooter>
           </ModalContent>
         </Modal>
@@ -211,7 +291,7 @@ export default function StudentQuiz() {
                   }
                   onClick={() => {
                     if (!quiz.submittedUsers.includes(user.id)) {
-                      setIsModal(true);
+                      openQuizModal(quiz);
                     }
                   }}
                 />
