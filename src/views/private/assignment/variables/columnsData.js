@@ -1,83 +1,30 @@
-export const columnsDataDevelopment = [
+export const columnsData = [
   {
-    Header: "NAME",
+    Header: "Assignment",
     accessor: "name",
   },
   {
-    Header: "TECH",
-    accessor: "tech",
+    Header: "Level",
+    accessor: "level",
   },
   {
-    Header: "DATE",
-    accessor: "date",
+    Header: "Created Date",
+    accessor: "dateCreated",
   },
   {
-    Header: "PROGRESS",
-    accessor: "progress",
-  },
-];
-
-export const columnsDataCheck = [
-  {
-    Header: "NAME",
-    accessor: "name",
+    Header: "Submit",
+    accessor: "Submit",
   },
   {
-    Header: "PROGRESS",
-    accessor: "progress",
+    Header: "Download Assignment",
+    accessor: "downloadAssignment",
   },
   {
-    Header: "QUANTITY",
-    accessor: "quantity",
-  },
-  {
-    Header: "DATE",
-    accessor: "date",
-  },
-];
-
-export const columnsDataColumns = [
-  {
-    Header: "NAME",
-    accessor: "name",
-  },
-  {
-    Header: "PROGRESS",
-    accessor: "progress",
-  },
-  {
-    Header: "QUANTITY",
-    accessor: "quantity",
-  },
-  {
-    Header: "DATE",
-    accessor: "date",
-  },
-];
-
-export const columnsDataComplex = [
-  {
-    Header: "NAME",
-    accessor: "name",
-  },
-  {
-    Header: "STATUS",
+    Header: "Submited",
     accessor: "status",
   },
   {
-    Header: "DATE",
-    accessor: "date",
-  },
-  {
-    Header: "PROGRESS",
-    accessor: "progress",
-  },
-  {
-    Header: "SUBMIT",
-    accessor: "submit",
-  },
-  {
-    Header: "RESULT",
-    accessor: "result",
+    Header: "Submitted File",
+    accessor: "submittedFile",
   },
 ];

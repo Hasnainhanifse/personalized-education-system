@@ -1,7 +1,12 @@
 // @ts-nocheck
 import { createSlice } from "@reduxjs/toolkit";
 import { StoreConstants } from "features/store-constants";
-import { getAllQuizzes, submitQuiz } from "./assessmentActions";
+import {
+  getAllQuizzes,
+  submitAssignment,
+  submitQuiz,
+} from "./assessmentActions";
+import { getAssignments } from "./assessmentActions";
 
 // initialize token from local storage
 const token = localStorage.getItem("token")
@@ -13,7 +18,8 @@ const user = localStorage.getItem("user")
 
 const initialState = {
   loading: false,
-  data: null,
+  quiz: null,
+  assignment: null,
   error: null,
   success: false,
 };
@@ -31,7 +37,7 @@ const assessmentSlice = createSlice({
       })
       .addCase(getAllQuizzes.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.data = payload;
+        state.quiz = payload;
         state.success = true;
       })
       .addCase(getAllQuizzes.rejected, (state, { payload }) => {
@@ -39,7 +45,7 @@ const assessmentSlice = createSlice({
         state.error = payload;
       })
 
-      //submit
+      //submit quiz
       .addCase(submitQuiz.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -49,6 +55,32 @@ const assessmentSlice = createSlice({
         state.success = true;
       })
       .addCase(submitQuiz.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      })
+      //get all assignments
+      .addCase(getAssignments.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAssignments.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.assignment = payload;
+      })
+      .addCase(getAssignments.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      })
+      //submit assignment
+      .addCase(submitAssignment.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(submitAssignment.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.success = true;
+      })
+      .addCase(submitAssignment.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload;
       });

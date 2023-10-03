@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Card from "components/card";
 import {
   useGlobalFilter,
@@ -6,16 +7,19 @@ import {
   useTable,
 } from "react-table";
 import { MdCheckCircle, MdCancel, MdOutlineError } from "react-icons/md";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Progress from "components/progress";
+import LevelBadge from "components/badge";
+import { useDispatch } from "react-redux";
+import { submitAssignment } from "features/assessment/assessmentActions";
 
 const ComplexTable = (props) => {
-  const { columnsData, tableData, state, title } = props;
-
+  const { columnsData, tableData, state, title, user } = props;
   const columns = useMemo(() => columnsData, [columnsData]);
   const data = useMemo(() => tableData, [tableData]);
   const initialState = useMemo(() => state, [state]);
-
+  const [selectedFile, setSelectedFile] = useState();
+  const dispatch = useDispatch();
   const {
     getTableProps,
     getTableBodyProps,
@@ -43,6 +47,22 @@ const ComplexTable = (props) => {
     useSortBy,
     usePagination
   );
+
+  const handleFileChange = (event) => {
+    event.preventDefault();
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleUpload = (assignmentId) => {
+    dispatch(
+      submitAssignment({
+        file: selectedFile,
+        user: user.id,
+        assignmentId: assignmentId,
+      })
+    );
+  };
+
   return (
     <Card extra={"w-full h-full px-6 pb-6 sm:overflow-x-auto"}>
       <div class="relative flex items-center justify-between pt-4">
@@ -77,19 +97,21 @@ const ComplexTable = (props) => {
                 <tr {...row.getRowProps()} key={index}>
                   {row.cells.map((cell, index) => {
                     let data = "";
-                    if (cell.column.Header === "NAME") {
+                    if (cell.column.Header === "Assignment") {
                       data = (
                         <p className="text-sm font-bold text-navy-700 dark:text-white">
                           {cell.value}
                         </p>
                       );
-                    } else if (cell.column.Header === "STATUS") {
+                    } else if (cell.column.Header === "Level") {
+                      data = <LevelBadge level={cell.value} />;
+                    } else if (cell.column.Header === "Submited") {
                       data = (
                         <div className="flex items-center gap-2">
                           <div className={`rounded-full text-xl`}>
-                            {cell.value === "Approved" ? (
+                            {cell.value === "Submitted" ? (
                               <MdCheckCircle className="text-green-500" />
-                            ) : cell.value === "Disable" ? (
+                            ) : cell.value === "pending" ? (
                               <MdCancel className="text-red-500" />
                             ) : cell.value === "Error" ? (
                               <MdOutlineError className="text-orange-500" />
@@ -100,7 +122,61 @@ const ComplexTable = (props) => {
                           </p>
                         </div>
                       );
-                    } else if (cell.column.Header === "DATE") {
+                    } else if (cell.column.Header === "Submitted File") {
+                      data = (
+                        <div class="relative mt-4 mb-4 flex w-20 justify-center overflow-hidden">
+                          <a href={cell.value ?? ""}>
+                            <button
+                              class=" text-w inline-flex  items-center rounded-lg bg-green-400 py-2 px-4 font-bold text-white duration-300 hover:bg-green-300 disabled:bg-green-200 dark:bg-green-400"
+                              disabled={!cell.value}
+                              title={"Download Submitted File"}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="h-5 w-5"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+                                />
+                              </svg>
+                            </button>
+                          </a>
+                        </div>
+                      );
+                    } else if (cell.column.Header === "Download Assignment") {
+                      data = (
+                        <div class="relative mt-4 mb-4 flex w-32 justify-center overflow-hidden">
+                          <a href={cell.value ?? ""}>
+                            <button
+                              class=" text-w inline-flex  items-center rounded-lg bg-navy-400 py-2 px-4 font-bold text-white duration-300 hover:bg-navy-300 disabled:bg-green-200 dark:bg-navy-400"
+                              disabled={!cell.value}
+                              title={"Download Assignment File"}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="h-5 w-5"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+                                />
+                              </svg>
+                            </button>
+                          </a>
+                        </div>
+                      );
+                    } else if (cell.column.Header === "Created Date") {
                       data = (
                         <p className="text-sm font-bold text-navy-700 dark:text-white">
                           {cell.value}
@@ -108,12 +184,12 @@ const ComplexTable = (props) => {
                       );
                     } else if (cell.column.Header === "PROGRESS") {
                       data = <Progress width="w-[108px]" value={cell.value} />;
-                    } else if (cell.column.Header === "SUBMIT") {
+                    } else if (cell.column.Header === "Submit") {
                       data = (
-                        <div class="relative mt-4 mb-4 w-32 overflow-hidden">
+                        <div class=" mt-4 mb-4 flex w-32 items-center gap-4">
                           <button
-                            class=" text-w inline-flex  items-center rounded-lg bg-navy-400 py-2 px-4 font-bold text-white duration-300 hover:bg-navy-300 dark:bg-navy-400"
-                            title="Submit"
+                            class=" text-w relative inline-flex  w-16 cursor-pointer items-center justify-center rounded-lg bg-navy-400 py-2 px-4 font-bold text-white duration-300 hover:bg-navy-300 dark:bg-navy-400"
+                            title="Select File"
                           >
                             <svg
                               fill="#FFF"
@@ -126,12 +202,22 @@ const ComplexTable = (props) => {
                               <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z" />
                             </svg>
                             <input
-                              class="pin-r pin-t absolute block w-full cursor-pointer py-2 px-4 opacity-0"
+                              class="pin-r pin-t absolute block w-full cursor-pointer cursor-pointer py-2 px-4 opacity-0"
                               type="file"
-                              name="documents[]"
-                              accept="image/*"
+                              name="file"
+                              accept="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-excel,
+                              application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                              onChange={handleFileChange}
                             />
                           </button>
+                          {selectedFile && (
+                            <button
+                              class=" text-w inline-flex  cursor-pointer items-center justify-center rounded-lg bg-green-400 py-2 px-4 font-bold text-white duration-300 hover:bg-green-300 dark:bg-green-400"
+                              onClick={() => handleUpload(cell.value)}
+                            >
+                              Upload
+                            </button>
+                          )}
                         </div>
                       );
                     } else if (cell.column.Header === "RESULT") {

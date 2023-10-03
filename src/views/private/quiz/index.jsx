@@ -83,7 +83,7 @@ function Instructions() {
 
 export default function StudentQuiz() {
   const [isModal, setIsModal] = useState(false);
-  const { data } = useSelector(selectAllQuiz);
+  const { quiz } = useSelector(selectAllQuiz);
   const { user } = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
   const [questioNo, setQuesionNo] = useState(0);
@@ -270,24 +270,36 @@ export default function StudentQuiz() {
 
         {/* quiz card */}
         <div className="z-20 grid grid-cols-1 gap-5 md:grid-cols-3 xl:grid-cols-5 ">
-          {data &&
-            data.result &&
-            data.result.map((quiz) => {
+          {quiz &&
+            quiz.result &&
+            quiz.result.map((quiz) => {
               return (
                 <NftCard
                   key={quiz.id}
                   title={quiz.name}
-                  subtitle={`Total Questions: ${quiz.questions.length}`}
-                  date={`Created Date: ${formatDate(quiz.dateCreated)}`}
+                  subtitle={`Total Questions: ${
+                    quiz.questions && quiz.questions.length
+                  }`}
+                  date={`Created Date: ${quiz && formatDate(quiz.dateCreated)}`}
                   level={quiz.level}
                   buttonText={
+                    quiz &&
+                    quiz.submittedUsers &&
                     quiz.submittedUsers.includes(user.id)
                       ? "Submitted"
                       : "Start Quiz"
                   }
-                  disabled={quiz.submittedUsers.includes(user.id)}
+                  disabled={
+                    quiz &&
+                    quiz.submittedUsers &&
+                    quiz.submittedUsers.includes(user.id)
+                  }
                   extra={
-                    quiz.submittedUsers.includes(user.id) ? " opacity-70" : ""
+                    quiz &&
+                    quiz.submittedUsers &&
+                    quiz.submittedUsers.includes(user.id)
+                      ? " opacity-70"
+                      : ""
                   }
                   onClick={() => {
                     if (!quiz.submittedUsers.includes(user.id)) {
