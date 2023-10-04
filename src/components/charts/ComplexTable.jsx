@@ -19,6 +19,7 @@ const ComplexTable = (props) => {
   const data = useMemo(() => tableData, [tableData]);
   const initialState = useMemo(() => state, [state]);
   const [selectedFile, setSelectedFile] = useState();
+  const [selectedAssignmentId, setSelectedAssignmentId] = useState();
   const dispatch = useDispatch();
   const {
     getTableProps,
@@ -48,30 +49,33 @@ const ComplexTable = (props) => {
     usePagination
   );
 
-  const handleFileChange = (event) => {
+  const handleFileChange = (assignmentId, event) => {
     event.preventDefault();
     setSelectedFile(event.target.files[0]);
+    setSelectedAssignmentId(assignmentId);
   };
 
-  const handleUpload = (assignmentId) => {
-    dispatch(
-      submitAssignment({
-        file: selectedFile,
-        user: user.id,
-        assignmentId: assignmentId,
-      })
-    );
+  const handleUpload = () => {
+    if (selectedFile && selectedAssignmentId) {
+      dispatch(
+        submitAssignment({
+          file: selectedFile,
+          user: user.id,
+          assignmentId: selectedAssignmentId,
+        })
+      );
+    }
   };
 
   return (
     <Card extra={"w-full h-full px-6 pb-6 sm:overflow-x-auto"}>
-      <div class="relative flex items-center justify-between pt-4">
-        <div class="text-xl font-bold text-navy-700 dark:text-white">
+      <div className="relative flex items-center justify-between pt-4">
+        <div className="text-xl font-bold text-navy-700 dark:text-white">
           {title}
         </div>
       </div>
 
-      <div class="mt-8 overflow-x-scroll xl:overflow-hidden">
+      <div className="mt-8 overflow-x-scroll xl:overflow-hidden">
         <table {...getTableProps()} className="w-full">
           <thead>
             {headerGroups.map((headerGroup, index) => (
@@ -94,7 +98,11 @@ const ComplexTable = (props) => {
             {page.map((row, index) => {
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()} key={index}>
+                <tr
+                  {...row.getRowProps()}
+                  key={index}
+                  className=" duration-300 hover:bg-gray-100"
+                >
                   {row.cells.map((cell, index) => {
                     let data = "";
                     if (cell.column.Header === "Assignment") {
@@ -124,10 +132,10 @@ const ComplexTable = (props) => {
                       );
                     } else if (cell.column.Header === "Submitted File") {
                       data = (
-                        <div class="relative mt-4 mb-4 flex w-20 justify-center overflow-hidden">
+                        <div className="relative mt-4 mb-4 flex w-20 justify-center overflow-hidden">
                           <a href={cell.value ?? ""}>
                             <button
-                              class=" text-w inline-flex  items-center rounded-lg bg-green-400 py-2 px-4 font-bold text-white duration-300 hover:bg-green-300 disabled:bg-green-200 dark:bg-green-400"
+                              className=" text-w inline-flex  items-center rounded-lg bg-green-400 py-2 px-4 font-bold text-white duration-300 hover:bg-green-300 disabled:bg-green-200 dark:bg-green-400"
                               disabled={!cell.value}
                               title={"Download Submitted File"}
                             >
@@ -135,13 +143,13 @@ const ComplexTable = (props) => {
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
                                 viewBox="0 0 24 24"
-                                stroke-width="1.5"
+                                strokeWidth="1.5"
                                 stroke="currentColor"
-                                class="h-5 w-5"
+                                className="h-5 w-5"
                               >
                                 <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
                                   d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
                                 />
                               </svg>
@@ -151,10 +159,10 @@ const ComplexTable = (props) => {
                       );
                     } else if (cell.column.Header === "Download Assignment") {
                       data = (
-                        <div class="relative mt-4 mb-4 flex w-32 justify-center overflow-hidden">
+                        <div className="relative mt-4 mb-4 flex w-32 justify-center overflow-hidden">
                           <a href={cell.value ?? ""}>
                             <button
-                              class=" text-w inline-flex  items-center rounded-lg bg-navy-400 py-2 px-4 font-bold text-white duration-300 hover:bg-navy-300 disabled:bg-green-200 dark:bg-navy-400"
+                              className=" text-w inline-flex  items-center rounded-lg bg-navy-400 py-2 px-4 font-bold text-white duration-300 hover:bg-navy-300 disabled:bg-green-200 dark:bg-navy-400"
                               disabled={!cell.value}
                               title={"Download Assignment File"}
                             >
@@ -162,13 +170,13 @@ const ComplexTable = (props) => {
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
                                 viewBox="0 0 24 24"
-                                stroke-width="1.5"
+                                strokeWidth="1.5"
                                 stroke="currentColor"
-                                class="h-5 w-5"
+                                className="h-5 w-5"
                               >
                                 <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
                                   d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
                                 />
                               </svg>
@@ -186,9 +194,9 @@ const ComplexTable = (props) => {
                       data = <Progress width="w-[108px]" value={cell.value} />;
                     } else if (cell.column.Header === "Submit") {
                       data = (
-                        <div class=" mt-4 mb-4 flex w-32 items-center gap-4">
+                        <div className=" mt-4 mb-4 flex w-32 items-center gap-4">
                           <button
-                            class=" text-w relative inline-flex  w-16 cursor-pointer items-center justify-center rounded-lg bg-navy-400 py-2 px-4 font-bold text-white duration-300 hover:bg-navy-300 dark:bg-navy-400"
+                            className=" text-w relative inline-flex  w-16 cursor-pointer items-center justify-center rounded-lg bg-navy-400 py-2 px-4 font-bold text-white duration-300 hover:bg-navy-300 dark:bg-navy-400"
                             title="Select File"
                           >
                             <svg
@@ -202,22 +210,23 @@ const ComplexTable = (props) => {
                               <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z" />
                             </svg>
                             <input
-                              class="pin-r pin-t absolute block w-full cursor-pointer cursor-pointer py-2 px-4 opacity-0"
+                              className="pin-r pin-t absolute block w-full cursor-pointer py-2 px-4 opacity-0"
                               type="file"
                               name="file"
                               accept="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-excel,
                               application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                              onChange={handleFileChange}
+                              onChange={(e) => handleFileChange(cell.value, e)}
                             />
                           </button>
-                          {selectedFile && (
-                            <button
-                              class=" text-w inline-flex  cursor-pointer items-center justify-center rounded-lg bg-green-400 py-2 px-4 font-bold text-white duration-300 hover:bg-green-300 dark:bg-green-400"
-                              onClick={() => handleUpload(cell.value)}
-                            >
-                              Upload
-                            </button>
-                          )}
+                          {selectedFile &&
+                            selectedAssignmentId === cell.value && (
+                              <button
+                                className=" text-w inline-flex  cursor-pointer items-center justify-center rounded-lg bg-green-400 py-2 px-4 font-bold text-white duration-300 hover:bg-green-300 dark:bg-green-400"
+                                onClick={handleUpload}
+                              >
+                                Upload
+                              </button>
+                            )}
                         </div>
                       );
                     } else if (cell.column.Header === "RESULT") {
@@ -239,21 +248,21 @@ const ComplexTable = (props) => {
           </tbody>
         </table>
         <div className=" mt-5">
-          <div class="flex flex-col items-center">
-            <span class="text-sm text-gray-700 dark:text-gray-400">
+          <div className="flex flex-col items-center">
+            <span className="text-sm text-gray-700 dark:text-gray-400">
               Showing{" "}
-              <span class="font-semibold text-gray-900 dark:text-white">
+              <span className="font-semibold text-gray-900 dark:text-white">
                 {" "}
                 {pageIndex + 1}
               </span>{" "}
               of{" "}
-              <span class="font-semibold text-gray-900 dark:text-white">
+              <span className="font-semibold text-gray-900 dark:text-white">
                 {pageOptions.length}
               </span>{" "}
             </span>
-            <div class="xs:mt-0 mt-2 inline-flex gap-5">
+            <div className="xs:mt-0 mt-2 inline-flex gap-5">
               <button
-                class="inline-flex items-center rounded-lg bg-navy-400 px-4 py-2 text-sm font-medium text-white duration-300 hover:bg-navy-300 disabled:bg-navy-300 dark:border-navy-400 dark:bg-navy-400 dark:text-gray-400 dark:hover:bg-navy-300 dark:hover:text-white"
+                className="inline-flex items-center rounded-lg bg-navy-400 px-4 py-2 text-sm font-medium text-white duration-300 hover:bg-navy-300 disabled:bg-navy-300 dark:border-navy-400 dark:bg-navy-400 dark:text-gray-400 dark:hover:bg-navy-300 dark:hover:text-white"
                 onClick={() => gotoPage(0)}
                 disabled={!canPreviousPage}
               >
@@ -261,18 +270,18 @@ const ComplexTable = (props) => {
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  class="h-6 w-6"
+                  className="h-6 w-6"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M13.28 3.97a.75.75 0 010 1.06L6.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5a.75.75 0 010-1.06l7.5-7.5a.75.75 0 011.06 0zm6 0a.75.75 0 010 1.06L12.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5a.75.75 0 010-1.06l7.5-7.5a.75.75 0 011.06 0z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   />
                 </svg>
                 Start
               </button>
               <button
-                class="inline-flex items-center rounded-lg bg-navy-400 px-4 py-2 text-sm font-medium text-white duration-300 hover:bg-navy-300 disabled:bg-navy-300 dark:border-navy-400 dark:bg-navy-400 dark:text-gray-400 dark:hover:bg-navy-300  dark:hover:text-white"
+                className="inline-flex items-center rounded-lg bg-navy-400 px-4 py-2 text-sm font-medium text-white duration-300 hover:bg-navy-300 disabled:bg-navy-300 dark:border-navy-400 dark:bg-navy-400 dark:text-gray-400 dark:hover:bg-navy-300  dark:hover:text-white"
                 onClick={() => previousPage()}
                 disabled={!canPreviousPage}
               >
@@ -280,18 +289,18 @@ const ComplexTable = (props) => {
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  class="h-6 w-6"
+                  className="h-6 w-6"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   />
                 </svg>
                 Prev
               </button>
               <button
-                class="inline-flex items-center rounded-lg bg-navy-400 px-4 py-2 text-sm font-medium text-white duration-300 hover:bg-navy-300 disabled:bg-navy-300 dark:border-navy-400 dark:bg-navy-400 dark:text-gray-400 dark:hover:bg-navy-300  dark:hover:text-white"
+                className="inline-flex items-center rounded-lg bg-navy-400 px-4 py-2 text-sm font-medium text-white duration-300 hover:bg-navy-300 disabled:bg-navy-300 dark:border-navy-400 dark:bg-navy-400 dark:text-gray-400 dark:hover:bg-navy-300  dark:hover:text-white"
                 onClick={() => nextPage()}
                 disabled={!canNextPage}
               >
@@ -300,17 +309,17 @@ const ComplexTable = (props) => {
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  class="h-6 w-6"
+                  className="h-6 w-6"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   />
                 </svg>
               </button>
               <button
-                class="inline-flex items-center rounded-lg bg-navy-400 px-4 py-2 text-sm font-medium text-white duration-300 hover:bg-navy-300 disabled:bg-navy-300 dark:border-navy-400 dark:bg-navy-400 dark:text-gray-400 dark:hover:bg-navy-300  dark:hover:text-white"
+                className="inline-flex items-center rounded-lg bg-navy-400 px-4 py-2 text-sm font-medium text-white duration-300 hover:bg-navy-300 disabled:bg-navy-300 dark:border-navy-400 dark:bg-navy-400 dark:text-gray-400 dark:hover:bg-navy-300  dark:hover:text-white"
                 onClick={() => gotoPage(pageCount - 1)}
                 disabled={!canNextPage}
               >
@@ -319,17 +328,17 @@ const ComplexTable = (props) => {
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  class="h-6 w-6"
+                  className="h-6 w-6"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M4.72 3.97a.75.75 0 011.06 0l7.5 7.5a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L11.69 12 4.72 5.03a.75.75 0 010-1.06zm6 0a.75.75 0 011.06 0l7.5 7.5a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 11-1.06-1.06L17.69 12l-6.97-6.97a.75.75 0 010-1.06z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   />
                 </svg>
               </button>
               <select
-                class="inline-flex items-center rounded-lg bg-navy-400 px-4 py-2 text-sm font-medium text-white outline-none duration-300 hover:bg-navy-300 disabled:bg-navy-300 dark:border-navy-400 dark:bg-navy-400 dark:text-gray-400 dark:hover:bg-navy-300  dark:hover:text-white"
+                className="inline-flex items-center rounded-lg bg-navy-400 px-4 py-2 text-sm font-medium text-white outline-none duration-300 hover:bg-navy-300 disabled:bg-navy-300 dark:border-navy-400 dark:bg-navy-400 dark:text-gray-400 dark:hover:bg-navy-300  dark:hover:text-white"
                 value={pageSize}
                 onChange={(e) => {
                   setPageSize(Number(e.target.value));

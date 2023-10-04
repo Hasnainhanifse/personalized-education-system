@@ -218,7 +218,7 @@ export default function StudentQuiz() {
                           currentOptions.map((option) => {
                             return (
                               <Container
-                                key={option.id}
+                                key={option._id}
                                 className="rounded-md border border-gray-300 py-2 "
                               >
                                 <Radio value={option._id}> {option.text}</Radio>
