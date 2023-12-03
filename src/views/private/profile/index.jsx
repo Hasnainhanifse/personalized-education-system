@@ -15,7 +15,7 @@ const StudentProfile = () => {
         </div>
       </div>
       <div className="grid h-full grid-cols-1 gap-5 lg:!grid-cols-1">
-        <General user={user} />
+        <General />
       </div>
     </div>
   );

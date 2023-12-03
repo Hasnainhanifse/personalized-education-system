@@ -75,10 +75,38 @@ export const updateProfile = createAsyncThunk(
         },
       };
       const { data } = await axios.put(
-        `${baseUrl}/users/${user.id}`,
+        `${baseUrl}/users/${form.userId}`,
         form,
         config
       );
+      localStorage.removeItem("user");
+      localStorage.setItem("user", JSON.stringify(data));
+      return data;
+    } catch (error) {
+      // return custom error message from API if any
+      if (error.response && error.response.data) {
+        if (error.response.status === 404) {
+          return rejectWithValue(error.response.statusText);
+        }
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const getUserProfile = createAsyncThunk(
+  "auth/getUserProfile",
+  async (form, { rejectWithValue }) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const { data } = await axios.get(`${baseUrl}/users/${form.user}`, config);
       localStorage.setItem("user", JSON.stringify(data));
       return data;
     } catch (error) {

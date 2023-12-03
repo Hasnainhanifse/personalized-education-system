@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from "react";
-import banner from "assets/img/profile/banner.png";
+import banner from "assets/img/profile/profile-banner.png";
 import Card from "components/card";
 import { Avatar } from "@chakra-ui/react";
 import LevelBadge from "components/badge";
@@ -10,9 +10,9 @@ const Banner = ({ user }) => {
     <Card extra={"items-center w-full h-full p-[16px] bg-cover"}>
       {/* Background and profile */}
       <div
-        className="relative mt-1 flex h-32 w-full justify-center rounded-xl bg-cover"
+        className="relative mt-1 flex h-80 w-full justify-center rounded-xl bg-cover bg-no-repeat"
         style={{
-          backgroundImage: `url('https://source.unsplash.com/random/500x50')`,
+          backgroundImage: `url(${banner})`,
         }}
       >
         <div className="absolute -bottom-12 flex h-[87px] w-[87px] items-center justify-center rounded-full border-[4px] border-white bg-pink-400 text-5xl text-white dark:!border-navy-700">

@@ -36,7 +36,11 @@ const LevelBadge = ({ level }) => {
         </Badge>
       );
     default:
-      return "";
+      return (
+        <Badge variant="subtle" colorScheme="purple">
+          {level}
+        </Badge>
+      );
   }
 };
 

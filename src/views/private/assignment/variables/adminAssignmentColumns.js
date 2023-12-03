@@ -1,4 +1,8 @@
-export const columnsData = [
+export const adminAssignmentColumns = [
+  {
+    Header: "No",
+    accessor: "index",
+  },
   {
     Header: "Assignment",
     accessor: "name",
@@ -12,19 +16,7 @@ export const columnsData = [
     accessor: "dateCreated",
   },
   {
-    Header: "Submit",
-    accessor: "Submit",
-  },
-  {
     Header: "Download Assignment",
     accessor: "downloadAssignment",
-  },
-  {
-    Header: "Submited",
-    accessor: "status",
-  },
-  {
-    Header: "Submitted File",
-    accessor: "submittedFile",
   },
 ];

@@ -90,7 +90,7 @@ const Navbar = (props) => {
                     👋 Hey,{" "}
                     {user &&
                       // @ts-ignore
-                      user.name}
+                      user.firstName}
                   </p>{" "}
                 </div>
               </div>
@@ -98,7 +98,7 @@ const Navbar = (props) => {
 
               <div className="flex flex-col p-4">
                 <Link
-                  to="/student/profile"
+                  to="/profile"
                   className=" border-l-4 p-2 text-sm text-gray-800 duration-300 hover:rounded-md hover:bg-navy-100 dark:text-white hover:dark:text-white"
                 >
                   Profile Settings

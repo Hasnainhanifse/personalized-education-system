@@ -26,7 +26,7 @@ import { selectAllQuiz } from "store";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import {
-  getAllQuizzes,
+  getRecommendedItems,
   submitQuiz,
 } from "features/assessment/assessmentActions";
 import { formatDate } from "helper/stringHelpers";
@@ -97,7 +97,7 @@ export default function StudentQuiz() {
 
   useEffect(() => {
     const unsubscribe = () => {
-      dispatch(getAllQuizzes());
+      dispatch(getRecommendedItems());
     };
     unsubscribe();
     return unsubscribe;
@@ -153,12 +153,16 @@ export default function StudentQuiz() {
     setAnswer(event);
   };
 
-  const closeQuizHandler = () => {
+  const closeQuizHandler = async () => {
     if (studentResult) {
       let form = new FormData();
       form.append("currentUser", user.id);
       form.append("quizId", currentQuiz.id);
-      dispatch(submitQuiz(form));
+      form.append(
+        "correctAnswers",
+        studentResult && studentResult?.correctAnswers
+      );
+      await dispatch(submitQuiz(form));
     }
     setIsModal(false);
     setQuesionNo(0);
@@ -169,6 +173,7 @@ export default function StudentQuiz() {
     setAnswer(null);
     setShowResult(false);
     setStudentResult(null);
+    await dispatch(getRecommendedItems({ user: user.id }));
   };
 
   return (
@@ -271,8 +276,8 @@ export default function StudentQuiz() {
         {/* quiz card */}
         <div className="z-20 grid grid-cols-1 gap-5 md:grid-cols-3 xl:grid-cols-5 ">
           {quiz &&
-            quiz.result &&
-            quiz.result.map((quiz) => {
+            quiz.length > 0 &&
+            quiz.map((quiz) => {
               return (
                 <NftCard
                   key={quiz.id}
@@ -310,14 +315,13 @@ export default function StudentQuiz() {
               );
             })}
         </div>
-
-        {/* recommended quiz setion */}
-
-        {/* <div className="mb-4 mt-5 flex flex-col justify-between px-4 md:flex-row md:items-center">
-          <h4 className="ml-1 text-2xl font-bold text-navy-700 dark:text-white">
-            Recommended Quiz
-          </h4>
-        </div> */}
+        {!quiz && (
+          <div className="z-20 grid grid-cols-1 rounded-md bg-white py-5 pl-5">
+            <p className="text-lg">
+              No quiz available yet, please enroll course first
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

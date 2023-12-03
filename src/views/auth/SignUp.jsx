@@ -24,7 +24,7 @@ const SignUp = () => {
   const toast = useToast();
 
   useEffect(() => {
-    if (error && !success) {
+    if (error) {
       toast({
         title: "Registeration error",
         description: error,
@@ -34,7 +34,7 @@ const SignUp = () => {
       });
       dispatch(clearErrors());
     }
-    if (success && !error) {
+    if (success) {
       toast({
         title: "Registeration Success",
         description: "Successfully registered",

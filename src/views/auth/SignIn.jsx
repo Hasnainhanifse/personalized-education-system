@@ -11,7 +11,7 @@ import { LINKS } from "types/global";
 
 export default function SignIn() {
   const navigate = useNavigate();
-  const { user, error } = useSelector(selectCurrentUser);
+  const { user, error, success } = useSelector(selectCurrentUser);
   const errors = useMemo(() => error, [error]);
   const dispatch = useDispatch();
   const toast = useToast();
@@ -19,15 +19,25 @@ export default function SignIn() {
   useEffect(() => {
     if (user) {
       navigate(LINKS.LINK_PROFILE);
-      toast({
-        title: "Login Success",
-        description: "Login successfully",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
+      if (success) {
+        toast({
+          title: "Login Success",
+          description: "Login successfully",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "Welcome",
+          description: `Welcome back ${user.firstName}`,
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
     }
-  }, [navigate, user]);
+  }, [user]);
 
   const onSubmit = async (data) => {
     try {

@@ -26,11 +26,14 @@ import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { updateProfile } from "features/auth/authActions";
 import LevelBadge from "components/badge";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "store";
 
-const General = ({ user }) => {
+const General = () => {
   const [isModal, setIsModal] = useState(false);
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
+  const { user } = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
   const {
     register,
@@ -41,7 +44,7 @@ const General = ({ user }) => {
   const onSubmit = (data) => {
     try {
       if (data) {
-        dispatch(updateProfile(data));
+        dispatch(updateProfile({ ...data, userId: user.id }));
         setIsModal(false);
       }
     } catch (e) {

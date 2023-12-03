@@ -6,21 +6,56 @@ import {
   useSortBy,
   useTable,
 } from "react-table";
-import { MdCheckCircle, MdCancel, MdOutlineError } from "react-icons/md";
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Text,
+  Input,
+  Grid,
+  GridItem,
+  Divider,
+} from "@chakra-ui/react";
+import {
+  MdCheckCircle,
+  MdCancel,
+  MdOutlineError,
+  MdOutlineArrowDropDown,
+} from "react-icons/md";
 import { useMemo, useState } from "react";
 import Progress from "components/progress";
 import LevelBadge from "components/badge";
 import { useDispatch } from "react-redux";
-import { submitAssignment } from "features/assessment/assessmentActions";
+import {
+  submitAssignment,
+  getRecommendedItems,
+  assignAssignmentMarks,
+  getSubmittedAssignments,
+} from "features/assessment/assessmentActions";
+import { useForm } from "react-hook-form";
 
 const ComplexTable = (props) => {
   const { columnsData, tableData, state, title, user } = props;
   const columns = useMemo(() => columnsData, [columnsData]);
   const data = useMemo(() => tableData, [tableData]);
-  const initialState = useMemo(() => state, [state]);
   const [selectedFile, setSelectedFile] = useState();
+  const [isModal, setIsModal] = useState(false);
   const [selectedAssignmentId, setSelectedAssignmentId] = useState();
   const dispatch = useDispatch();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
   const {
     getTableProps,
     getTableBodyProps,
@@ -29,16 +64,10 @@ const ComplexTable = (props) => {
     page,
     canPreviousPage,
     canNextPage,
-    pageOptions,
     pageCount,
     gotoPage,
     nextPage,
     previousPage,
-    setPageSize,
-    initialState: {
-      pageIndex = initialState.pageIndex,
-      pageSize = initialState.pageSize,
-    },
   } = useTable(
     {
       columns,
@@ -55,24 +84,60 @@ const ComplexTable = (props) => {
     setSelectedAssignmentId(assignmentId);
   };
 
-  const handleUpload = () => {
+  const handleUpload = async () => {
     if (selectedFile && selectedAssignmentId) {
-      dispatch(
+      await dispatch(
         submitAssignment({
           file: selectedFile,
           user: user.id,
           assignmentId: selectedAssignmentId,
         })
       );
+      await getAssingmnets();
+      setSelectedFile(null);
+      setSelectedAssignmentId(null);
+    }
+  };
+
+  const getAssingmnets = async () => {
+    let form = new FormData();
+    form.append("currentUser", user.id);
+    form.append("levelType", user.level);
+    await dispatch(getRecommendedItems({ user: user.id }));
+  };
+
+  const onClickAssignMarks = (assignment) => {
+    setSelectedAssignmentId(assignment);
+    setIsModal(true);
+  };
+
+  const onAssignMarks = async (data) => {
+    try {
+      if (data) {
+        await dispatch(
+          assignAssignmentMarks({
+            score: data.marks,
+            assignmentId: selectedAssignmentId.assignment,
+            user: selectedAssignmentId.user.id,
+          })
+        );
+        await dispatch(getSubmittedAssignments({ user: user.id }));
+        setIsModal(false);
+        setSelectedAssignmentId(null);
+      }
+    } catch (e) {
+      console.error(e);
     }
   };
 
   return (
     <Card extra={"w-full h-full px-6 pb-6 sm:overflow-x-auto"}>
       <div className="relative flex items-center justify-between pt-4">
-        <div className="text-xl font-bold text-navy-700 dark:text-white">
-          {title}
-        </div>
+        {title && (
+          <div className="text-xl font-bold text-navy-700 dark:text-white">
+            {title}
+          </div>
+        )}
       </div>
 
       <div className="mt-8 overflow-x-scroll xl:overflow-hidden">
@@ -101,7 +166,10 @@ const ComplexTable = (props) => {
                 <tr
                   {...row.getRowProps()}
                   key={index}
-                  className=" duration-300 hover:bg-gray-100"
+                  className="  "
+                  className={`text-danger duration-300 hover:bg-gray-100 ${
+                    index % 2 === 1 ? "bg-gray-50" : ""
+                  }`}
                 >
                   {row.cells.map((cell, index) => {
                     let data = "";
@@ -111,9 +179,35 @@ const ComplexTable = (props) => {
                           {cell.value}
                         </p>
                       );
+                    } else if (cell.column.Header === "Actions") {
+                      data = (
+                        <Menu>
+                          <MenuButton
+                            disabled={true}
+                            as={Button}
+                            rightIcon={<MdOutlineArrowDropDown />}
+                          >
+                            Actions
+                          </MenuButton>
+                          {!cell.value.score && (
+                            <MenuList>
+                              <MenuItem
+                                onClick={() => onClickAssignMarks(cell.value)}
+                              >
+                                Assign Marks
+                              </MenuItem>
+                            </MenuList>
+                          )}
+                        </Menu>
+                      );
+                    } else if (cell.column.Header === "No") {
+                      data = <p> {cell.value}</p>;
                     } else if (cell.column.Header === "Level") {
                       data = <LevelBadge level={cell.value} />;
-                    } else if (cell.column.Header === "Submited") {
+                    } else if (
+                      cell.column.Header === "Submited" ||
+                      cell.column.Header === "Reviewed"
+                    ) {
                       data = (
                         <div className="flex items-center gap-2">
                           <div className={`rounded-full text-xl`}>
@@ -192,7 +286,10 @@ const ComplexTable = (props) => {
                       );
                     } else if (cell.column.Header === "PROGRESS") {
                       data = <Progress width="w-[108px]" value={cell.value} />;
-                    } else if (cell.column.Header === "Submit") {
+                    } else if (
+                      cell.column.Header === "Submit" &&
+                      !user.isAdmin
+                    ) {
                       data = (
                         <div className=" mt-4 mb-4 flex w-32 items-center gap-4">
                           <button
@@ -229,8 +326,18 @@ const ComplexTable = (props) => {
                             )}
                         </div>
                       );
-                    } else if (cell.column.Header === "RESULT") {
-                      data = <span>13 / 20</span>;
+                    } else if (
+                      cell.column.Header === "Type" ||
+                      cell.column.Header === "Name" ||
+                      cell.column.Header === "Name" ||
+                      cell.column.Header === "Obtained Marks" ||
+                      cell.column.Header === "Total Marks" ||
+                      cell.column.Header === "Submission Date" ||
+                      cell.column.Header === "Student" ||
+                      cell.column.Header === "Submitted Date" ||
+                      cell.column.Header === "Result"
+                    ) {
+                      data = <span>{cell.value}</span>;
                     }
                     return (
                       <td
@@ -249,17 +356,6 @@ const ComplexTable = (props) => {
         </table>
         <div className=" mt-5">
           <div className="flex flex-col items-center">
-            <span className="text-sm text-gray-700 dark:text-gray-400">
-              Showing{" "}
-              <span className="font-semibold text-gray-900 dark:text-white">
-                {" "}
-                {pageIndex + 1}
-              </span>{" "}
-              of{" "}
-              <span className="font-semibold text-gray-900 dark:text-white">
-                {pageOptions.length}
-              </span>{" "}
-            </span>
             <div className="xs:mt-0 mt-2 inline-flex gap-5">
               <button
                 className="inline-flex items-center rounded-lg bg-navy-400 px-4 py-2 text-sm font-medium text-white duration-300 hover:bg-navy-300 disabled:bg-navy-300 dark:border-navy-400 dark:bg-navy-400 dark:text-gray-400 dark:hover:bg-navy-300 dark:hover:text-white"
@@ -301,7 +397,7 @@ const ComplexTable = (props) => {
               </button>
               <button
                 className="inline-flex items-center rounded-lg bg-navy-400 px-4 py-2 text-sm font-medium text-white duration-300 hover:bg-navy-300 disabled:bg-navy-300 dark:border-navy-400 dark:bg-navy-400 dark:text-gray-400 dark:hover:bg-navy-300  dark:hover:text-white"
-                onClick={() => nextPage()}
+                onClick={() => nextPage(pageCount + 1)}
                 disabled={!canNextPage}
               >
                 Next
@@ -337,35 +433,63 @@ const ComplexTable = (props) => {
                   />
                 </svg>
               </button>
-              <select
-                className="inline-flex items-center rounded-lg bg-navy-400 px-4 py-2 text-sm font-medium text-white outline-none duration-300 hover:bg-navy-300 disabled:bg-navy-300 dark:border-navy-400 dark:bg-navy-400 dark:text-gray-400 dark:hover:bg-navy-300  dark:hover:text-white"
-                value={pageSize}
-                onChange={(e) => {
-                  setPageSize(Number(e.target.value));
-                }}
-              >
-                {[10, 20, 30, 40, 50].map((pageSize) => (
-                  <option key={pageSize} value={pageSize}>
-                    Show {pageSize}
-                  </option>
-                ))}
-              </select>
             </div>
           </div>
-          {/* <span>
-            | Go to page:{" "}
-            <input
-              type="number"
-              defaultValue={pageIndex + 1}
-              onChange={(e) => {
-                const page = e.target.value ? Number(e.target.value) - 1 : 0;
-                gotoPage(page);
-              }}
-              style={{ width: "100px" }}
-            />
-          </span>{" "} */}
         </div>
       </div>
+      <Modal
+        isOpen={isModal}
+        onClose={() => setIsModal(false)}
+        size={"xl"}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <form onSubmit={handleSubmit(onAssignMarks)}>
+            <ModalHeader>Assign Marks</ModalHeader>
+            <Divider />
+            <ModalCloseButton />
+            <ModalBody py={5}>
+              <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+                <GridItem>
+                  <Text fontSize="lg">Marks</Text>
+                  <Input
+                    {...register("marks", {
+                      required: "Marks are required",
+                      validate: {
+                        withinRange: (value) => {
+                          const marks = parseInt(value);
+                          return (
+                            (marks >= 0 && marks <= 10) ||
+                            "Marks should be between 0 to 10"
+                          );
+                        },
+                      },
+                    })}
+                  />
+                  <span className="ml-1.5 mt-1.5 border-red-500 text-red-500 placeholder:text-red-500 dark:!border-red-400 dark:!text-red-400 dark:placeholder:!text-red-400">
+                    {errors.marks && errors.marks?.message}
+                  </span>
+                </GridItem>
+              </Grid>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button
+                colorScheme="red"
+                mr={3}
+                size="lg"
+                onClick={() => setIsModal(false)}
+              >
+                Close
+              </Button>
+              <Button size="lg" colorScheme="blue" type="submit">
+                Save
+              </Button>
+            </ModalFooter>
+          </form>
+        </ModalContent>
+      </Modal>
     </Card>
   );
 };
